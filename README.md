@@ -28,16 +28,11 @@ code blocks for commands
 ## Issues
 
 Any advise for common problems or issues.
-```
 
 ## Authors
 
-Yusra Tahir(https://github.com/yusra-tahir)
-Anna Sambrook(https://github.com/annasambrook)
-Jasmine Cheung (https://github.com/jazzc001)
-Amal Khan(https://github.com/AmalKhan99)
-Zoe Atuona(https://github.com/zatuona)
-
-## License
-
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+[Yusra Tahir](https://github.com/yusra-tahir)
+[Anna Sambrook](https://github.com/annasambrook)
+[Jasmine Cheung](https://github.com/jazzc001)
+[Amal Khan](https://github.com/AmalKhan99)
+[Zoe Atuona](https://github.com/zatuona)
