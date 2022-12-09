@@ -1,16 +1,10 @@
 package com.groupone.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.groupone.entity.Journey;
-import com.groupone.entity.JourneyList;
-import com.groupone.entity.Station;
-import com.groupone.entity.StationList;
 import com.groupone.persistence.JourneyDao;
 
 @Service
