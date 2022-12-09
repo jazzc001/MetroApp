@@ -1,13 +1,25 @@
 package com.groupone.service;
 
-import java.util.List;
-
 import com.groupone.entity.Journey;
+import com.groupone.entity.Station;
 
 public interface UserJourneyService {
 
-	Journey createNewJourney(Integer swipeInStation,Integer swipeOutStation);
+	public Journey createNewJourney(Station startStation, Station endStation, int userId);
 
-	// List<Journey> getJourneyByUserID(Integer userId, Integer swipeInStationId, Integer swipeOutStationId);
-	
+	/*private int journeyId;
+
+	private int stationId;
+	private int userId;
+	private String swipeInStation;
+	private String swipeOutStation;
+	private LocalDateTime swipeInDateAndTime;
+	private LocalDateTime swipeOutDateAndTime;
+	private double journeyFare;
+
+	*/
+
+	// List<Journey> getJourneyByUserID(Integer userId, Integer swipeInStationId,
+	// Integer swipeOutStationId);
+
 }
