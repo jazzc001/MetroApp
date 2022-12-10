@@ -1,6 +1,5 @@
 package com.groupone.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
@@ -18,6 +17,7 @@ public class Journey {
 
 	@Id
 	private int journeyId;
+
 	private int stationId;
 	private int userId;
 	private String swipeInStation;

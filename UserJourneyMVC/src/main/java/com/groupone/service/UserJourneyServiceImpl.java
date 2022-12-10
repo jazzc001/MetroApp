@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.groupone.entity.Journey;
+import com.groupone.entity.Station;
 import com.groupone.persistence.JourneyDao;
 
 @Service
@@ -17,7 +18,7 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 	private RestTemplate restTemplate;
 
 	@Override
-	public Journey createNewJourney(Integer swipeInStation, Integer swipeOutStation) {
+	public Journey createNewJourney(Station startStation, Station endStation, int userId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
