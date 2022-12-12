@@ -3,6 +3,7 @@ package com.groupone.entity;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
@@ -16,9 +17,9 @@ import lombok.NoArgsConstructor;
 public class Journey {
 
 	@Id
+	@GeneratedValue
 	private int journeyId;
 
-	private int stationId;
 	private int userId;
 	private String swipeInStation;
 	private String swipeOutStation;

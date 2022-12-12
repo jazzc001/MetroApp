@@ -1,27 +1,23 @@
 package com.groupone.service;
 
+import java.util.List;
+
 import com.groupone.entity.Journey;
 import com.groupone.entity.Station;
 import com.groupone.entity.User;
 
 public interface UserJourneyService {
 
-	public Journey createNewJourney(Station startStation, Station endStation, int userId);
+	boolean login(String email, String password);
 
-	/*private int journeyId;
+	List<Journey> searchJourneyByUserID(Integer userId);
+	
+	Journey createNewJourney(int userId, Station startStation, Station endStation);
 
-	private int stationId;
-	private int userId;
-	private String swipeInStation;
-	private String swipeOutStation;
-	private LocalDateTime swipeInDateAndTime;
-	private LocalDateTime swipeOutDateAndTime;
-	private double journeyFare;
+	double calculateFare (int startStationId, int endStationId);
 
-	*/
-
-	// List<Journey> getJourneyByUserID(Integer userId, Integer swipeInStationId,
-	// Integer swipeOutStationId);
-	public boolean login(String email, String password);
+	void topUpBalance (int userId, double amount);
+	
+	public boolean updateBalance(int userId, double remainingBalance,int startStationId, int endStationId);
 
 }

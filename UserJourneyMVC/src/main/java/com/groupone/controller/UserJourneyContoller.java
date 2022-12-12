@@ -1,12 +1,13 @@
 package com.groupone.controller;
 
 
-import com.groupone.entity.JourneyList;
-import com.groupone.service.UserJourneyService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import com.groupone.entity.JourneyList;
+import com.groupone.service.UserJourneyService;
 
 @Controller
 public class UserJourneyContoller {
