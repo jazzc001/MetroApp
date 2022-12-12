@@ -2,14 +2,13 @@ package com.groupone.userservice.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.groupone.userservice.entity.User;
 import com.groupone.userservice.service.UserService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class UserResource {
@@ -28,4 +27,8 @@ public class UserResource {
     	return userService.addUser(user);
     }
 
+    @GetMapping(path="/users/{email}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public User searchByEmail(@PathVariable("email") String email) {
+        return userService.searchByEmail(email);
+    }
 }

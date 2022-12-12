@@ -7,6 +7,8 @@ public interface UserJourneyService {
 
 	public Journey createNewJourney(Station startStation, Station endStation, int userId);
 
+	public boolean login(String email, String password);
+
 	/*private int journeyId;
 
 	private int stationId;
