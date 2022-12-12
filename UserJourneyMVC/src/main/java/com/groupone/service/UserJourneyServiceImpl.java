@@ -1,6 +1,5 @@
 package com.groupone.service;
 
-import com.groupone.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -22,16 +21,6 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 	public Journey createNewJourney(Station startStation, Station endStation, int userId) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public boolean login(String email, String password) {
-		User user = restTemplate.getForObject("http://localhost:8082/users/{email}", User.class, email);
-
-			if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
-				return true;
-		}
-		return false;
 	}
 
 	/**
