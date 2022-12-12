@@ -1,5 +1,6 @@
 package com.groupone.service;
 
+import com.groupone.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -44,5 +45,18 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 	 *           return journeyDao.searchJourneyByUserId(userId); }
 	 * 
 	 **/
+
+	@Override
+	public boolean login(String email, String password) {
+		// find customer object
+		User user = restTemplate.getForObject("http://localhost:8080/users/{email}", User.class);
+		if (user != null) {
+			return true;
+		}
+		return false;
+	}
+
+
+
 
 }

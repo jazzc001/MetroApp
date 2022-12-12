@@ -2,6 +2,7 @@ package com.groupone.service;
 
 import com.groupone.entity.Journey;
 import com.groupone.entity.Station;
+import com.groupone.entity.User;
 
 public interface UserJourneyService {
 
@@ -21,5 +22,6 @@ public interface UserJourneyService {
 
 	// List<Journey> getJourneyByUserID(Integer userId, Integer swipeInStationId,
 	// Integer swipeOutStationId);
+	public boolean login(String email, String password);
 
 }
