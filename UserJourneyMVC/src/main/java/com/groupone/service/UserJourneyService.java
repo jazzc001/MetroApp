@@ -10,4 +10,7 @@ public interface UserJourneyService {
 
 	//Serach Journey List from userId
 	List<Journey> searchJourneyByUserID(Integer userId);
+
+	//Create a new Journey
+	Boolean addJourney(Journey journey);
 }

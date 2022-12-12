@@ -9,6 +9,7 @@ import com.groupone.entity.Station;
 import com.groupone.persistence.JourneyDao;
 
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,25 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 		List<Journey> journeyList = journeyDao.searchJourneyByUserId(userId);
 
 		return journeyList;
+	}
+
+	@Override
+	public Boolean addJourney(Journey journey) {
+		try{
+			journeyDao.createJourney(journey.getJourneyId(),
+					journey.getStationId(),
+					journey.getUserId(),
+					journey.getSwipeInStation(),
+					journey.getSwipeOutStation(),
+					journey.getSwipeInDateAndTime(),
+					journey.getSwipeOutDateAndTime(), journey.getJourneyFare());
+			return true;
+		} catch (SQLIntegrityConstraintViolationException ex) {
+			return false;
+		} catch(Exception ex) {
+			return false;
+		}
+
 	}
 
 
