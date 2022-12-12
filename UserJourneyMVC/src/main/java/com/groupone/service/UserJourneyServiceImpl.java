@@ -28,10 +28,7 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 
 		List<Journey> journeyList = journeyDao.searchJourneyByUserId(userId);
 
-
-
-
-		return null;
+		return journeyList;
 	}
 
 
