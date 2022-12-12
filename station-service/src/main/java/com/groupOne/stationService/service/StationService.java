@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface StationService {
 
-    public List<Station> searchStationByStationId(int stationId);
+    public Station searchStationByStationId(int stationId);
+
+	public Station searchStationByStationName(String stationName);
 
 }
