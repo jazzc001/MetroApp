@@ -26,7 +26,7 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 	public boolean login(String email, String password) {
 		// find customer object
 		User user = restTemplate.getForObject("http://localhost:8080/users/{email}", User.class);
-		if (user != null) {
+		if ((user != null)&&(password.equals(user.getPassword()))) {
 			return true;
 		}
 		return false;

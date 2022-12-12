@@ -17,4 +17,5 @@ public class UserJourneyContoller {
     public JourneyList searchJourneyByUserIdResource(@PathVariable("uId") Integer userId) {
         return new JourneyList(userJourneyService.searchJourneyByUserID(userId));
     }
+
 }
