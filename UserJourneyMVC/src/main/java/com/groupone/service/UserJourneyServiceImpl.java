@@ -8,6 +8,11 @@ import com.groupone.entity.Journey;
 import com.groupone.entity.Station;
 import com.groupone.persistence.JourneyDao;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
+
 @Service
 public class UserJourneyServiceImpl implements UserJourneyService {
 
@@ -18,10 +23,17 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 	private RestTemplate restTemplate;
 
 	@Override
-	public Journey createNewJourney(Station startStation, Station endStation, int userId) {
-		// TODO Auto-generated method stub
+
+	public List<Journey> searchJourneyByUserID(Integer userId) {
+
+		List<Journey> journeyList = journeyDao.searchJourneyByUserId(userId);
+
+
+
+
 		return null;
 	}
+
 
 	/**
 	 * @Override public List<Journey> getJourneyByUserID(Integer userId, Integer
