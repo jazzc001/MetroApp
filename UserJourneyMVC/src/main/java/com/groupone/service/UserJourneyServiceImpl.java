@@ -1,5 +1,6 @@
 package com.groupone.service;
 
+import com.groupone.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -7,11 +8,6 @@ import org.springframework.web.client.RestTemplate;
 import com.groupone.entity.Journey;
 import com.groupone.entity.Station;
 import com.groupone.persistence.JourneyDao;
-
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 @Service
 public class UserJourneyServiceImpl implements UserJourneyService {
@@ -22,15 +18,14 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	@Override
 
 	public List<Journey> searchJourneyByUserID(Integer userId) {
 
 		List<Journey> journeyList = journeyDao.searchJourneyByUserId(userId);
 
 		return journeyList;
-	}
 
+	}
 
 	/**
 	 * @Override public List<Journey> getJourneyByUserID(Integer userId, Integer
@@ -53,5 +48,18 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 	 *           return journeyDao.searchJourneyByUserId(userId); }
 	 * 
 	 **/
+
+	@Override
+	public boolean login(String email, String password) {
+		// find customer object
+		User user = restTemplate.getForObject("http://localhost:8080/users/{email}", User.class);
+		if (user != null) {
+			return true;
+		}
+		return false;
+	}
+
+
+
 
 }

@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface StationDao extends JpaRepository<Station, Integer> {
 
-    public List<Station> searchStationByStationId(int stationId);
+    public Station searchStationByStationId(int stationId);
+    
+    public Station searchStationByStationName(String stationName);
 
 }

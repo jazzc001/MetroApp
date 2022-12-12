@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import com.groupone.userservice.entity.User;
 import com.groupone.userservice.persistence.UserDao;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 	
@@ -30,6 +32,11 @@ public class UserServiceImpl implements UserService {
 			return null;
 		}
 
+	}
+
+	@Override
+	public User searchByEmail(String email) {
+		return userDao.searchByEmail(email);
 	}
 
 }
