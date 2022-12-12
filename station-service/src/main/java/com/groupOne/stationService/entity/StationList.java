@@ -1,23 +1,15 @@
-package com.groupone.entity;
-
+package com.groupOne.stationService.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 
-
-
-
-
-public class JourneyList {
-	
-	List<Journey> journeyList;
-	
+public class StationList {
+    List<Station> stations;
 }
