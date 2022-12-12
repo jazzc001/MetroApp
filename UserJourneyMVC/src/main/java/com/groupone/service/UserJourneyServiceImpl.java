@@ -1,12 +1,15 @@
 package com.groupone.service;
 
-import com.groupone.entity.User;
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.groupone.entity.Journey;
 import com.groupone.entity.Station;
+import com.groupone.entity.User;
 import com.groupone.persistence.JourneyDao;
 
 @Service
@@ -18,37 +21,7 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-
-	public List<Journey> searchJourneyByUserID(Integer userId) {
-
-		List<Journey> journeyList = journeyDao.searchJourneyByUserId(userId);
-
-		return journeyList;
-
-	}
-
-	/**
-	 * @Override public List<Journey> getJourneyByUserID(Integer userId, Integer
-	 *           swipeInStationId, Integer swipeOutStationId) {
-	 * 
-	 *           List<Journey> journeyList = new ArrayList<Journey>();
-	 * 
-	 *           StationList stationList =
-	 *           restTemplate.getForObject("http://localhost:8082/stations/" +
-	 *           userId, StationList.class);
-	 * 
-	 *           for (Journey journey : journeyList) { Station swipeInStation =
-	 *           restTemplate
-	 *           .getForObject("http://localhost:8082/swipe-in-station/" +
-	 *           swipeInStationId, Station.class); Station swipeOutStation =
-	 *           restTemplate
-	 *           .getForObject("http://localhost:8082/swipe-in-station/" +
-	 *           swipeOutStationId, Station.class); }
-	 * 
-	 *           return journeyDao.searchJourneyByUserId(userId); }
-	 * 
-	 **/
-
+	/* ======= LOGIN ======== */
 	@Override
 	public boolean login(String email, String password) {
 		// find customer object
@@ -59,7 +32,83 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 		return false;
 	}
 
+	/* ======= SEARCH JOURNEY BY USER ID ======== */
 
+	public List<Journey> searchJourneyByUserID(Integer userId) {
+		List<Journey> journeyList = journeyDao.searchJourneyByUserId(userId);
+		return journeyList;
 
+	}
+
+	/* ======= CREATE JOURNEY ======== */
+
+	@Override
+	public Journey createNewJourney(int userId, Station startStation, Station endStation) {
+		User user = restTemplate.getForObject("http://localhost:8080/users/{userId}" + userId, User.class);
+
+		double balance = user.getBalance();
+
+		if (balance > 20) {
+
+			startStation = restTemplate.getForObject("http://localhost:8082/station/name/{startstation}",
+					Station.class);
+			endStation = restTemplate.getForObject("http://localhost:8082/station/name/{endstation}", Station.class);
+			int startStationId = startStation.getStationId();
+			int endStationId = endStation.getStationId();
+
+			double totalFare = calculateFare(startStationId, endStationId);
+			LocalDateTime swipeInDateTime = LocalDateTime.now();
+			LocalDateTime swipeOutDateTime = LocalDateTime.now();
+
+			Journey journey = new Journey();
+
+			journey.setSwipeInStation(startStation.getStationName());
+			journey.setSwipeInStation(endStation.getStationName());
+			journey.setSwipeInDateAndTime(swipeInDateTime);
+			journey.setSwipeOutDateAndTime(swipeOutDateTime);
+			journey.setJourneyFare(totalFare);
+
+			return journey;
+		} else {
+			return null;
+		}
+	}
+
+	/* ======= CALCULATE FARE ======== */
+
+	public double calculateFare(int startStationId, int endStationId) {
+
+		int noOfStops = Math.abs(startStationId - endStationId);
+		double journeyFare = noOfStops * 5;
+		return journeyFare;
+
+	}
+
+///* ======= UPDATE BALANCE ======== */
+
+	@Override
+	public boolean updateBalance(int userId, double remainingBalance, int startStationId, int endStationId) {
+		User user = restTemplate.getForObject("http://localhost:8080/users/{userId}", User.class);
+
+		if (user != null) {
+			remainingBalance = user.getBalance() - calculateFare(startStationId, endStationId);
+			user.setBalance(remainingBalance);
+			return true;
+		}
+		return false;
+
+	}
+
+	/* ======= TOP UP BALANCE ======== */
+
+	public void topUpBalance(int userId, double topUpAmount) {
+		User user = restTemplate.getForObject("http://localhost:8080/users/{userId}" + userId, User.class);
+		double newBalance;
+
+		if (user != null) {
+			newBalance = user.getBalance() + topUpAmount;
+			user.setBalance(newBalance);
+		}
+	}
 
 }
