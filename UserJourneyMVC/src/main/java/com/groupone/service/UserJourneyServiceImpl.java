@@ -18,10 +18,13 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	@Override
-	public Journey createNewJourney(Station startStation, Station endStation, int userId) {
-		// TODO Auto-generated method stub
-		return null;
+
+	public List<Journey> searchJourneyByUserID(Integer userId) {
+
+		List<Journey> journeyList = journeyDao.searchJourneyByUserId(userId);
+
+		return journeyList;
+
 	}
 
 	/**
