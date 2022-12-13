@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserService {
 
-	public User searchUserById(int id);
+	public User searchByUserId(int userId);
 	
 	public User addUser(User user);
 
