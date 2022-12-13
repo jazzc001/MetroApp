@@ -15,7 +15,8 @@ public class UserController {
 	@Autowired
 	private UserJourneyService userJourneyService;
 
-	// -------------------------------------------------------------------LOGIN CONTROLLER------------------------------------------------------------------------
+	/* ====== LOGIN CONTROLLER ====== */
+	
 	@RequestMapping("/")
 	public ModelAndView loginPageController() {
 		return new ModelAndView("login");

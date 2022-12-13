@@ -18,7 +18,7 @@ public class UserResource {
 
     @GetMapping(path="/user/{abc}",produces = MediaType.APPLICATION_JSON_VALUE)
     public User searchUserById(@PathVariable("abc")int id){
-        return userService.searchUserById(id);
+        return userService.searchByUserId(id);
     }
     
     
