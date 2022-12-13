@@ -8,7 +8,7 @@ public interface UserService {
 
 	public User searchByUserId(int userId);
 	
-	public User addUser(User user);
+	public boolean addUser(User user);
 
 	public User searchByEmail(String email);
 

@@ -19,12 +19,4 @@ public interface UserDao extends JpaRepository<User, Integer> {
 
 	public User searchByUserId(int id);
 
-	// Native Query
-	@Modifying
-	@Transactional
-	@Query(value = "insert into user values(:uid,:fna,:lna,:email,:password,:bal)", nativeQuery = true)
-	int insertUser(@Param("uid") int id, @Param("fna") String fname, @Param("lna") String lname,
-			@Param("email") String mail, @Param("password") String pwd, @Param("bal") double balance)
-			throws SQLIntegrityConstraintViolationException;
-
 }

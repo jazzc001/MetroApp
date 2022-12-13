@@ -15,7 +15,7 @@ public class UserJourneyMvcApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(UserJourneyMvcApplication.class, args);
 	}
-	
+
 	@Bean
 	public RestTemplate getTemplate() {
 		return new RestTemplate();

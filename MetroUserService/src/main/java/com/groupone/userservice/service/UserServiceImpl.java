@@ -20,18 +20,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User addUser(User user) {
-		try {
-			int rows = userDao.insertUser(user.getUserId(), user.getFirstName(), user.getLastName(), user.getEmail(),
-					user.getPassword(), user.getBalance());
-			if (rows > 0)
-				return user;
-			else
-				return null;
-		} catch (Exception ex) {
-			return null;
-		}
-
+	public boolean addUser(User user) {
+		if (userDao.save(user) == null)
+			return false;
+		else
+			return true;
 	}
 
 	@Override

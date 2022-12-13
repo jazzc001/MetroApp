@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 public class User {
 
     @Id
-    @GeneratedValue
     private int userId;
     
     private String firstName;
