@@ -2,6 +2,7 @@ package com.groupone.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,8 +15,7 @@ public class UserController {
 	@Autowired
 	private UserJourneyService userJourneyService;
 
-	// -------------------------------------------------------------------LOGIN
-	// CONTROLLER------------------------------------------------------------------------
+	// -------------------------------------------------------------------LOGIN CONTROLLER------------------------------------------------------------------------
 	@RequestMapping("/")
 	public ModelAndView loginPageController() {
 		return new ModelAndView("login");
@@ -40,6 +40,14 @@ public class UserController {
 			modelAndView.setViewName("login");
 		}
 		return modelAndView;
+	}
+	//---------------------------------------------------------DASHBOARD CONTROLLER-----------------------------------------------------------------------------
+	@GetMapping("/Dashboard/{userID}")
+
+	public ModelAndView dashboardController(@RequestParam("userId")int userId) {
+		ModelAndView modelAndView=new ModelAndView("Dashboard");
+		modelAndView.addObject("balance", userJourneyService.getBalance(userId));
+		return new ModelAndView("Dashboard");
 	}
 
 }

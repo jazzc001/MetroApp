@@ -20,4 +20,6 @@ public interface UserJourneyService {
 	
 	public boolean updateBalance(int userId, double remainingBalance,int startStationId, int endStationId);
 
+	public double getBalance(int userId);
+
 }

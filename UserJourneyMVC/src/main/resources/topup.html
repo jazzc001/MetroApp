@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Top Up</title>
+</head>
+<body>
+<h1>Metro Card</h1>
+<hr>
+<h2 th:text="${balance}" ></h2>
+<form action="./TopUp">
+  UserID: <input type="text" name="UserID"/> <br/><br>
+  Top Up Amount: <input type="text" name="Top Up Amount"/><br/><br>
+  <button type="submit">Submit</button>
+  <h2 th:text="${message}" ></h2>
+</form>
+</body>
+</html>
