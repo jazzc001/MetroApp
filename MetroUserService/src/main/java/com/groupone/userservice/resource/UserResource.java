@@ -21,7 +21,6 @@ public class UserResource {
         return userService.searchByUserId(id);
     }
     
-    
     @PostMapping(path = "/users",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
     public User addUserResource(@RequestBody User user) {
     	return userService.addUser(user);

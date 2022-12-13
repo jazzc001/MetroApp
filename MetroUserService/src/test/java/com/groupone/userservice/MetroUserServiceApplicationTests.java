@@ -45,7 +45,7 @@ class MetroUserServiceApplicationTests {
 	@Test
 	@DisplayName("Search User By ID - Positive Scenario")
 	void testsearchUserByIdPositive() {
-		User user = new User(101, "FirstName", "LastName", "test@mail.com", "testPassword", 50, 1234);
+		User user = new User(101, "FirstName", "LastName", "test@mail.com", "testPassword", 50);
 		when(userDao.searchByUserId(101)).thenReturn(user);
 		assertEquals(user, userServiceImpl.searchByUserId(101));
 	}
@@ -60,7 +60,7 @@ class MetroUserServiceApplicationTests {
 	@Test
 	@DisplayName("Search User By Email - Positive Scenario")
 	void testSearchUserByEmailPositive() {
-		User user = new User(101, "FirstName", "LastName", "test@mail.com", "testPassword", 50, 1234);
+		User user = new User(101, "FirstName", "LastName", "test@mail.com", "testPassword", 50);
 		when(userDao.searchByEmail("test@gmail.com")).thenReturn(user);
 		assertEquals(user, userServiceImpl.searchByEmail("test@gmail.com"));
 	}
@@ -75,18 +75,18 @@ class MetroUserServiceApplicationTests {
 	@Test
 	@DisplayName("Add User - Positive Scenario")
 	void testAddUserPositive() throws SQLIntegrityConstraintViolationException {
-		when(userDao.insertUser(101, "FirstName", "LastName", "test@mail.com", "testPassword", 50, 1234)).thenReturn(1);
+		when(userDao.insertUser(101, "FirstName", "LastName", "test@mail.com", "testPassword", 50)).thenReturn(1);
 		assertNotNull(userServiceImpl
-				.addUser(new User(101, "FirstName", "LastName", "test@mail.com", "testPassword", 50, 1234)));
+				.addUser(new User(101, "FirstName", "LastName", "test@mail.com", "testPassword", 50)));
 
 	}
 
 	@Test
 	@DisplayName("Add User - Negative Scenario")
 	void testAddUserNegative() throws SQLIntegrityConstraintViolationException {
-		when(userDao.insertUser(101, "FirstName", "LastName", "test@mail.com", "testPassword", 50, 1234)).thenReturn(0);
+		when(userDao.insertUser(101, "FirstName", "LastName", "test@mail.com", "testPassword", 50)).thenReturn(0);
 		assertNull(userServiceImpl
-				.addUser(new User(101, "FirstName", "LastName", "test@mail.com", "testPassword", 50, 1234)));
+				.addUser(new User(101, "FirstName", "LastName", "test@mail.com", "testPassword", 50)));
 	}
 
 }

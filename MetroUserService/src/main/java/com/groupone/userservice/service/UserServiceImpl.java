@@ -10,25 +10,25 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-	
-    @Autowired
-    private UserDao userDao;
 
-    @Override
-    public User searchByUserId(int userId) {
-    	return userDao.findById(userId).orElse(null);
-    }
+	@Autowired
+	private UserDao userDao;
+
+	@Override
+	public User searchByUserId(int userId) {
+		return userDao.findById(userId).orElse(null);
+	}
 
 	@Override
 	public User addUser(User user) {
 		try {
-			int rows=userDao.insertUser(user.getUserId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getBalance(), user.getCardNumber());
-			if(rows>0)
+			int rows = userDao.insertUser(user.getUserId(), user.getFirstName(), user.getLastName(), user.getEmail(),
+					user.getPassword(), user.getBalance());
+			if (rows > 0)
 				return user;
 			else
 				return null;
-		}
-		catch(Exception ex) {
+		} catch (Exception ex) {
 			return null;
 		}
 
