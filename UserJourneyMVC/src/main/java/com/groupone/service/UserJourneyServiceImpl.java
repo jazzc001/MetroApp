@@ -25,8 +25,8 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 	@Override
 	public boolean login(String email, String password) {
 		// find customer object
-		User user = restTemplate.getForObject("http://localhost:8080/users/{email}", User.class);
-		if ((user != null)&&(password.equals(user.getPassword()))) {
+		User user = restTemplate.getForObject("http://localhost:8080/users/"+email, User.class);
+		if ((user != null) && (password.equals(user.getPassword()))) {
 			return true;
 		}
 		return false;
@@ -98,7 +98,8 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 		return false;
 
 	}
-	/*===================Get Balance======================*/
+
+	/* ===================Get Balance====================== */
 	@Override
 	public double getBalance(int userId) {
 		User user = restTemplate.getForObject("http://localhost:8080/users/{userId}", User.class);
@@ -118,6 +119,26 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 		}
 	}
 
+	/* ======= CREATE NEW USER ======== */
 
+	@Override
+	public boolean createNewUser(String firstName, String lastName, String email, String password, double balance) {
+
+		try {
+			User newUser = new User();
+
+			newUser.setFirstName(firstName);
+			newUser.setLastName(lastName);
+			newUser.setEmail(email);
+			newUser.setPassword(password);
+			newUser.setBalance(100);
+
+			User postNewUser = restTemplate.postForObject("http://localhost:8080/users", newUser, User.class);
+			return true;
+		} catch (Exception ex) {
+			return false;
+		}
+
+	}
 
 }

@@ -9,6 +9,8 @@ import com.groupone.entity.User;
 public interface UserJourneyService {
 
 	boolean login(String email, String password);
+	
+	boolean createNewUser(String firstName, String lastName, String Email, String password, double balance);
 
 	List<Journey> searchJourneyByUserID(Integer userId);
 	
@@ -21,5 +23,5 @@ public interface UserJourneyService {
 	public boolean updateBalance(int userId, double remainingBalance,int startStationId, int endStationId);
 
 	public double getBalance(int userId);
-
+	
 }

@@ -22,9 +22,9 @@ public interface UserDao extends JpaRepository<User, Integer> {
 	// Native Query
 	@Modifying
 	@Transactional
-	@Query(value = "insert into user values(:uid,:fna,:lna,:email,:password,:bal,:cNo)", nativeQuery = true)
+	@Query(value = "insert into user values(:uid,:fna,:lna,:email,:password,:bal)", nativeQuery = true)
 	int insertUser(@Param("uid") int id, @Param("fna") String fname, @Param("lna") String lname,
-			@Param("email") String mail, @Param("password") String pwd, @Param("bal") double balance,
-			@Param("cNo") int cardNo) throws SQLIntegrityConstraintViolationException;
+			@Param("email") String mail, @Param("password") String pwd, @Param("bal") double balance)
+			throws SQLIntegrityConstraintViolationException;
 
 }
