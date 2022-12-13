@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Metro Login</title>
+</head>
+<body>
+	<h1>Metro Card</h1>
+	<hr>
+	<h2>Hi XXX, Let's Start your journey</h2>
+	<h2>Your current balance is £30.</h2>
+	<form action="./swipeout">
+		<label for="stations">Start</label>
+
+		<select name="stations" id="stations">
+			<option value="kings-cross">Kings-Cross</option>
+			<option value="waterloo">Waterloo</option>
+			<option value="paddington">Paddington</option>
+			<option value="chiswick">Chiswick</option>
+			<option value="london-bridge">London-Bridge</option>
+		</select>
+
+		<br> <input type="submit" value="Swipe Out">
+		<h2 th:text="${message}"></h2>
+	</form>
+</body>
+</html>

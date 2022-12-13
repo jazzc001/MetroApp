@@ -34,4 +34,22 @@ public class UserJourneyContoller {
         return modelAndView;
     }
 
+    //----------------------------------SWIP IN STATION CONTROLLER---------------------------------
+    @RequestMapping("/swipein")
+    public ModelAndView swipeInController(String station) {
+        ModelAndView modelAndView = new ModelAndView();
+
+
+        return modelAndView;
+    }
+
+    //----------------------------------SWIP OUT STATION CONTROLLER---------------------------------
+    @RequestMapping("/swipeout")
+    public ModelAndView swipeOutController(String station) {
+        ModelAndView modelAndView = new ModelAndView();
+
+
+        return modelAndView;
+    }
+
 }
