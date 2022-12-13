@@ -98,6 +98,13 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 		return false;
 
 	}
+	/*===================Get Balance======================*/
+	@Override
+	public double getBalance(int userId) {
+		User user = restTemplate.getForObject("http://localhost:8080/users/{userId}", User.class);
+		return user.getBalance();
+
+	}
 
 	/* ======= TOP UP BALANCE ======== */
 
@@ -110,5 +117,7 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 			user.setBalance(newBalance);
 		}
 	}
+
+
 
 }
