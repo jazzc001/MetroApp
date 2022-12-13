@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>MetroApp</title>
+</head>
+<body>
+	<h1>Create An Account</h1>
+	<form action="./register" method="post">
+		Enter Email: <input type="email" name="email"><br> <br>
+		Enter First Name: <input type="text" name="firstName"><br>
+		<br> Enter Last Name: <input type="text" name="lastName"><br>
+		<br> Enter Password: <input type="password" name="password"><br>
+		<br> <br> <input type="Submit" value="Add New User">
+		<h2 th:text="${message}"></h2>
+	</form>
+</body>
+</html>

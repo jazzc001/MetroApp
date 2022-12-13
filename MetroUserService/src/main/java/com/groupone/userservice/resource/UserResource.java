@@ -13,21 +13,24 @@ import java.util.List;
 @RestController
 public class UserResource {
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @GetMapping(path="/user/{abc}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public User searchUserById(@PathVariable("abc")int id){
-        return userService.searchByUserId(id);
-    }
-    
-    @PostMapping(path = "/users",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public User addUserResource(@RequestBody User user) {
-    	return userService.addUser(user);
-    }
+	@GetMapping(path = "/user/id/{abc}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public User searchUserById(@PathVariable("abc") int id) {
+		return userService.searchByUserId(id);
+	}
 
-    @GetMapping(path="/users/{email}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public User searchByEmail(@PathVariable("email") String email) {
-        return userService.searchByEmail(email);
-    }
+	@PostMapping(path = "/newUser", produces = MediaType.TEXT_PLAIN_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public String addUserResource(@RequestBody User newUser) {
+		if (userService.addUser(newUser))
+			return "User Added";
+		else
+			return "User Not Added";
+	}
+
+	@GetMapping(path = "/user/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public User searchByEmail(@PathVariable("email") String email) {
+		return userService.searchByEmail(email);
+	}
 }

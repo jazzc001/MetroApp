@@ -25,7 +25,7 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 	@Override
 	public boolean login(String email, String password) {
 		// find customer object
-		User user = restTemplate.getForObject("http://localhost:8080/users/"+email, User.class);
+		User user = restTemplate.getForObject("http://localhost:8080/user/email/" + email, User.class);
 		if ((user != null) && (password.equals(user.getPassword()))) {
 			return true;
 		}
@@ -44,7 +44,7 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 
 	@Override
 	public Journey createNewJourney(int userId, Station startStation, Station endStation) {
-		User user = restTemplate.getForObject("http://localhost:8080/users/{userId}" + userId, User.class);
+		User user = restTemplate.getForObject("http://localhost:8080/user/id/" + userId, User.class);
 
 		double balance = user.getBalance();
 
@@ -88,7 +88,7 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 
 	@Override
 	public boolean updateBalance(int userId, double remainingBalance, int startStationId, int endStationId) {
-		User user = restTemplate.getForObject("http://localhost:8080/users/{userId}", User.class);
+		User user = restTemplate.getForObject("http://localhost:8080/users/id/" + userId, User.class);
 
 		if (user != null) {
 			remainingBalance = user.getBalance() - calculateFare(startStationId, endStationId);
@@ -122,7 +122,7 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 	/* ======= CREATE NEW USER ======== */
 
 	@Override
-	public boolean createNewUser(String firstName, String lastName, String email, String password, double balance) {
+	public User createNewUser(String firstName, String lastName, String email, String password, double balance) {
 
 		try {
 			User newUser = new User();
@@ -133,10 +133,15 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 			newUser.setPassword(password);
 			newUser.setBalance(100);
 
-			User postNewUser = restTemplate.postForObject("http://localhost:8080/users", newUser, User.class);
-			return true;
+			String postNewUser = restTemplate.postForObject("http://localhost:8080/newUser", newUser, String.class);
+
+			if (postNewUser.equals("User Added")) {
+				return newUser;
+			} else {
+				return null;
+			}
 		} catch (Exception ex) {
-			return false;
+			return null;
 		}
 
 	}

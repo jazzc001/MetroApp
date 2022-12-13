@@ -40,7 +40,7 @@ public class UserController {
 			session.setAttribute("user", user);
 			modelAndView.setViewName("Dashboard");
 		} else {
-			modelAndView.addObject("Invalid User Credentials, Please try again");
+			modelAndView.addObject("message", "Invalid User Credentials, Please try again");
 			modelAndView.addObject("user", new User());
 			modelAndView.setViewName("loginPage");
 		}
@@ -52,27 +52,31 @@ public class UserController {
 
 	@RequestMapping("/registerPage")
 	public ModelAndView registerPageController() {
-		return new ModelAndView("RegisterPage", "user", new User());
+		return new ModelAndView("registerPage", "user", new User());
 	}
 
 	@RequestMapping("/register")
 	public ModelAndView registerController(@ModelAttribute("user") User newUser, @RequestParam("email") String email,
 			@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
-			@RequestParam("pass") String password, HttpSession session) {
+			@RequestParam("password") String password, HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
-		String message = null;
+		String message;
 
+		newUser.setFirstName(firstName);
+		newUser.setLastName(lastName);
+		newUser.setEmail(email);
+		newUser.setPassword(password);
 		newUser.setBalance(100);
 
-		if (userJourneyService.createNewUser(email, firstName, lastName, password, newUser.getBalance())) {
-			message = "Thanks for Signing Up";
-
+		if (userJourneyService.createNewUser(newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(),
+				newUser.getPassword(), newUser.getBalance()) != null) {
+			modelAndView.setViewName("loginPage");
+			modelAndView.addObject("newUser", newUser);
 		} else {
-			message = "Sign up failed!";
+			message = "FAIL";
+			modelAndView.addObject("message", message);
+			modelAndView.setViewName("HomePage");
 		}
-
-		modelAndView.addObject("message", message);
-		modelAndView.setViewName("LoginPage");
 
 		return modelAndView;
 

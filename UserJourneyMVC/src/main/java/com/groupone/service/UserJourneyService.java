@@ -10,7 +10,7 @@ public interface UserJourneyService {
 
 	boolean login(String email, String password);
 	
-	boolean createNewUser(String firstName, String lastName, String Email, String password, double balance);
+	User createNewUser(String firstName, String lastName, String Email, String password, double balance);
 
 	List<Journey> searchJourneyByUserID(Integer userId);
 	
