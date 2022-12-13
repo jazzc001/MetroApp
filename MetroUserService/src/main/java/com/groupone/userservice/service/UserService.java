@@ -6,10 +6,13 @@ import java.util.List;
 
 public interface UserService {
 
-	public User searchByUserId(int userId);
+	User searchByUserId(int userId);
 	
-	public boolean addUser(User user);
+	boolean addUser(User user);
 
-	public User searchByEmail(String email);
+	User searchByEmail(String email);
+	
+	User topUpBalance(int userId, double topUpAmount);
+	 
 
 }

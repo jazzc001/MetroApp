@@ -18,7 +18,7 @@ public interface UserJourneyService {
 
 	double calculateFare (int startStationId, int endStationId);
 
-	void topUpBalance (int userId, double amount);
+	User topUpBalance (int userId, double amount);
 	
 	public boolean updateBalance(int userId, double remainingBalance,int startStationId, int endStationId);
 
