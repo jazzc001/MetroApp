@@ -32,4 +32,16 @@ public class UserServiceImpl implements UserService {
 		return userDao.searchByEmail(email);
 	}
 
+	@Override
+	public User topUpBalance(int userId, double topUpAmount) {
+		User user = userDao.findById(userId).get();
+		if (user.getBalance() < 0) {
+			return null;
+		} else {
+			user.setBalance(user.getBalance() + topUpAmount);
+			userDao.save(user);
+			return user;
+		}
+
+	}
 }

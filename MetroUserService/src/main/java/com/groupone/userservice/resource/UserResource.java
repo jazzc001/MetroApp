@@ -2,13 +2,15 @@ package com.groupone.userservice.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.groupone.userservice.entity.User;
 import com.groupone.userservice.service.UserService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 public class UserResource {
@@ -27,6 +29,14 @@ public class UserResource {
 			return "User Added";
 		else
 			return "User Not Added";
+	}
+
+	@PutMapping(path = "/user/id/{userId}/{topUp}", produces = MediaType.TEXT_PLAIN_VALUE)
+	public String topUpAmount(@PathVariable("userId") int userId, @PathVariable("topUp") double topUpAmount) {
+		if (userService.topUpBalance(userId, topUpAmount) != null)
+			return "TopUp Successfull";
+		else
+			return "TopUp Unsuccessfull";
 	}
 
 	@GetMapping(path = "/user/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)

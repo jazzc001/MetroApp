@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -109,14 +112,23 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 
 	/* ======= TOP UP BALANCE ======== */
 
-	public void topUpBalance(int userId, double topUpAmount) {
-		User user = restTemplate.getForObject("http://localhost:8080/users/{userId}" + userId, User.class);
-		double newBalance;
+	public User topUpBalance(int userId, double topUpAmount) {
 
-		if (user != null) {
-			newBalance = user.getBalance() + topUpAmount;
-			user.setBalance(newBalance);
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<User> entity = new HttpEntity<>(headers);
+
+		User user = restTemplate.exchange("http://localhost:8080/user/id/" + userId + "/" + topUpAmount, HttpMethod.PUT,
+				entity, User.class).getBody();
+		try {
+			if (user != null) {
+				return user;
+			} else
+				return null;
+
+		} catch (Exception ex) {
+			return null;
 		}
+
 	}
 
 	/* ======= CREATE NEW USER ======== */
