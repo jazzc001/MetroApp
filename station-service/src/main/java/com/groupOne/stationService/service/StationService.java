@@ -1,13 +1,12 @@
 package com.groupOne.stationService.service;
 
 import com.groupOne.stationService.entity.Station;
-
-import java.util.List;
+import com.groupOne.stationService.entity.StationList;
 
 public interface StationService {
+	
+    Station searchStationByStationId(int stationId);
 
-    public Station searchStationByStationId(int stationId);
-
-	public Station searchStationByStationName(String stationName);
+	Station searchStationByStationName(String stationName);
 
 }

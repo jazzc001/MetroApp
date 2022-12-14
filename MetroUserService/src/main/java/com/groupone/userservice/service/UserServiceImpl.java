@@ -57,4 +57,16 @@ public class UserServiceImpl implements UserService {
 			return null;
 		}
 	}
+
+	@Override
+	public User updateBalance(int userId, double fare) {
+		User user = userDao.findById(userId).get();
+		if (user != null) {
+			user.setBalance(user.getBalance() - fare);
+			userDao.save(user);
+			return user;
+		} else {
+			return null;
+		}
+	}
 }

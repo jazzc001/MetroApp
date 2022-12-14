@@ -7,21 +7,44 @@ import com.groupone.entity.Station;
 import com.groupone.entity.User;
 
 public interface UserJourneyService {
+	
+   /* == LOGIN == */
 
 	User login(String email, String password);
 	
+	/* == CREATE NEW USER == */
+	
 	User createNewUser(String firstName, String lastName, String Email, String password, double balance);
+	
+	/* == PAST JOURNEY == */
 
 	List<Journey> searchJourneyByUserID(Integer userId);
 	
-	Journey createNewJourney(int userId, Station startStation, Station endStation);
+	/* == CREATE JOURNEY == */
+	
+//	Journey createNewJourney(int userId, Station startStation, Station endStation);
 
-	double calculateFare (int startStationId, int endStationId);
+	/* == CALCULATE FARE == */
+
+	double calculateFare (int journeyId, String startStationName, String endStationName);
+	
+	/* == TOP UP == */
 
 	User topUpBalance (int userId, double amount);
 	
-	public boolean updateBalance(int userId, double remainingBalance,int startStationId, int endStationId);
+	/* == UPDATE BALANCE AFTER JOURNEY == */
+	
+	User updateBalance(int userId, double fare);
 
-	public double getBalance(int userId);
+	double getBalance(int userId);
+	
+	/* == SWIPE IN == */
+	
+	Journey swipeIn(int userId, String startStationName);
+
+	Journey swipeOut(int journeyId, String endStationName);
+	
+	
+	
 	
 }

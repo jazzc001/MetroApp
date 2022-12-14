@@ -36,6 +36,11 @@ public class UserResource {
 		return userService.topUpBalance(userId, topUpAmount);
 	}
 
+	@PutMapping(path = "/user/{userId}/{fare}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public User updateBalance(@PathVariable("userId") int userId, @PathVariable("fare") double fare) {
+		return userService.updateBalance(userId, fare);
+	}
+
 	@GetMapping(path = "/user/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public User searchByEmail(@PathVariable("email") String email) {
 		return userService.searchByEmail(email);

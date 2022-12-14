@@ -7,20 +7,16 @@
 <body>
 	<h1>Metro Card</h1>
 	<hr>
-	<h2>Hi XXX, Let's Start your journey</h2>
+	<h2>Hi XXX, Let's End your journey</h2>
 	<h2>Your current balance is £30.</h2>
-	<form action="./swipein">
-		<label for="stations">Start</label>
-
-		<select name="stations" id="stations">
+	<form action="./swipeOut">
+		<label for="stations">End</label> <select name="station" id="station">
 			<option value="kings-cross">Kings-Cross</option>
 			<option value="waterloo">Waterloo</option>
 			<option value="paddington">Paddington</option>
 			<option value="chiswick">Chiswick</option>
 			<option value="london-bridge">London-Bridge</option>
-		</select>
-
-		<br> <input type="submit" value="Swipe In">
+		</select> <br> <input type="submit" value="Swipe Out">
 		<h2 th:text="${message}"></h2>
 	</form>
 </body>
