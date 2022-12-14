@@ -1,6 +1,5 @@
 package com.groupone.controller;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +31,13 @@ public class UserController {
 	}
 
 	@RequestMapping("/login")
-	public ModelAndView loginController(@ModelAttribute("user") User user, @RequestParam("email") String email,
-			@RequestParam("password") String password, HttpSession session) {
+	public ModelAndView loginController(@RequestParam("email") String email, @RequestParam("password") String pass,
+			HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
 
-		if (userJourneyService.login(email, password)) {
+		User user = userJourneyService.login(email, pass);
+
+		if (user != null) {
 			modelAndView.addObject("user", user);
 			session.setAttribute("user", user);
 			modelAndView.setViewName("Dashboard");
@@ -88,7 +89,7 @@ public class UserController {
 	public ModelAndView dashboardController(@ModelAttribute("user") User user, HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
 		// getting User from session
-		user = (User)session.getAttribute("user");
+		user = (User) session.getAttribute("user");
 
 		user.getBalance();
 		user.getFirstName();
@@ -109,20 +110,19 @@ public class UserController {
 	public ModelAndView topUpController(@RequestParam("topUpAmount") double topUpAmount, HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
 		String message;
-		
-		int userId = ((User)session.getAttribute("user")).getUserId();
 
-		if (userJourneyService.topUpBalance(userId, topUpAmount) != null) {
+		User user = ((User) session.getAttribute("user"));
+		if (userJourneyService.topUpBalance(user.getUserId(), topUpAmount) != null) {
 			message = "Your account has been increased by " + topUpAmount;
-			modelAndView.addObject("message", message);
-			modelAndView.setViewName("Output");
 
 		} else {
 			message = topUpAmount + " could not be added to your account, please try again!";
-			modelAndView.addObject("message", message);
-			modelAndView.setViewName("TopUpPage");
 
 		}
+
+		session.setAttribute("user", user);
+		modelAndView.addObject("message", message);
+		modelAndView.setViewName("TopUpPage");
 
 		return modelAndView;
 

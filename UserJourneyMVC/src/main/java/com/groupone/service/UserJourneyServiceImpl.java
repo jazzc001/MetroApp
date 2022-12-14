@@ -26,13 +26,12 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 
 	/* ======= LOGIN ======== */
 	@Override
-	public boolean login(String email, String password) {
+	public User login(String email, String password) {
 		// find customer object
-		User user = restTemplate.getForObject("http://localhost:8080/user/email/" + email, User.class);
-		if ((user != null) && (password.equals(user.getPassword()))) {
-			return true;
-		}
-		return false;
+		User user = restTemplate.getForObject("http://localhost:8080/user/" + email + "/" + password, User.class);
+		if (user != null)
+			return user;
+		return null;
 	}
 
 	/* ======= SEARCH JOURNEY BY USER ID ======== */
@@ -115,7 +114,7 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 	public User topUpBalance(int userId, double topUpAmount) {
 
 		HttpHeaders headers = new HttpHeaders();
-		HttpEntity<User> entity = new HttpEntity<>(headers);
+		HttpEntity<User> entity = new HttpEntity<User>(headers);
 
 		User user = restTemplate.exchange("http://localhost:8080/user/id/" + userId + "/" + topUpAmount, HttpMethod.PUT,
 				entity, User.class).getBody();
