@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.groupone.entity.Journey;
 import com.groupone.entity.User;
 import com.groupone.service.UserJourneyService;
 
@@ -101,6 +102,7 @@ public class UserController {
 	}
 
 	/* ======== TOP UP CONTROLLER ======= */
+
 	@RequestMapping("/topUpPage")
 	public ModelAndView topUpPageController() {
 		return new ModelAndView("TopUpPage");
@@ -122,38 +124,97 @@ public class UserController {
 
 		session.setAttribute("user", user);
 		modelAndView.addObject("message", message);
-		modelAndView.setViewName("TopUpPage");
+		modelAndView.setViewName("Dashboard");
 
 		return modelAndView;
 
-		/*
-		 * @RequestMapping("/transferFunds") public ModelAndView
-		 * transferFundsController(@RequestParam("accountId")int
-		 * recepientAccountId,@RequestParam("amount") double balance,HttpSession
-		 * session) { ModelAndView modelAndView=new ModelAndView();
-		 * 
-		 * int myAccountId=((Customer)session.getAttribute("customer")).getAccountId();
-		 * Customer customer=customerService.transferFunds(myAccountId,
-		 * recepientAccountId,balance ); if(customer==null) {
-		 * modelAndView.addObject("message", "Transaction Failed");
-		 * session.setAttribute("customer", customer); }else
-		 * modelAndView.addObject("message",
-		 * "Your Account has been debited with balance "
-		 * +balance+" and credited in Account No"
-		 * +recepientAccountId+" and your current Balance is "+customer.
-		 * getCustomerBalance());
-		 * 
-		 * modelAndView.setViewName("Output"); return modelAndView; }
-		 * 
-		 */
-
-		/*
-		 * modelAndView.addObject("balance", "Your current balance is: " +
-		 * userJourneyService.getBalance(userId) + ". Top up more below."); // Tops up
-		 * balance userJourneyService.topUpBalance(userId, topUpAmount); // Adds a
-		 * message saying how much you have topped up by
-		 * modelAndView.addObject("message", "You have updated the balance by " +
-		 * topUpAmount); return modelAndView;
-		 */
 	}
+
+	@RequestMapping("/swipeInPage")
+	public ModelAndView swipeInPageController(String station) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("SwipeInStation");
+		return modelAndView;
+	}
+
+	@RequestMapping("/swipeIn")
+	public ModelAndView swipeInController(String station, HttpSession session) {
+		ModelAndView modelAndView = new ModelAndView();
+		String message;
+
+		User user = ((User) session.getAttribute("user"));
+		if (userJourneyService.swipeIn(user.getUserId(), station) != null) {
+			if (user.getBalance() > 20) {
+				Journey journey = userJourneyService.swipeIn(user.getUserId(), station);
+				session.setAttribute("journey", journey);
+				message = "You have successfully swiped in at " + station;
+			} else {
+				message = "You need to top up your account";
+			}
+			modelAndView.addObject("message", message);
+			modelAndView.setViewName("Dashboard");
+		}
+
+		return modelAndView;
+	}
+
+	@RequestMapping("/swipeOutPage")
+	public ModelAndView swipeOutPageController(String station) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("SwipeOutStation");
+		return modelAndView;
+	}
+
+	@RequestMapping("/swipeOut")
+	public ModelAndView swipeOutController(String station, HttpSession session) {
+		ModelAndView modelAndView = new ModelAndView();
+		String message;
+
+		Journey journey = ((Journey) session.getAttribute("journey"));
+		journey.setSwipeOutStation(station);
+
+		if (userJourneyService.swipeOut(journey.getJourneyId(), station) != null) {
+			double fare = userJourneyService.calculateFare(journey.getJourneyId(), journey.getSwipeInStation(),
+					journey.getSwipeOutStation());
+			User updateBalance = userJourneyService.updateBalance(journey.getUserId(), fare);
+			message = "You have successfully swiped out at " + station + " and your journey cost is " + fare
+					+ " and your remaining balance is  " + updateBalance.getBalance();
+		} else {
+			message = "You have not swiped out, please try again!";
+		}
+
+		modelAndView.addObject("message", message);
+		modelAndView.setViewName("Dashboard");
+		return modelAndView;
+
+	}
+	/*
+	 * @RequestMapping("/transferFunds") public ModelAndView
+	 * transferFundsController(@RequestParam("accountId")int
+	 * recepientAccountId,@RequestParam("amount") double balance,HttpSession
+	 * session) { ModelAndView modelAndView=new ModelAndView();
+	 * 
+	 * int myAccountId=((Customer)session.getAttribute("customer")).getAccountId();
+	 * Customer customer=customerService.transferFunds(myAccountId,
+	 * recepientAccountId,balance ); if(customer==null) {
+	 * modelAndView.addObject("message", "Transaction Failed");
+	 * session.setAttribute("customer", customer); }else
+	 * modelAndView.addObject("message",
+	 * "Your Account has been debited with balance "
+	 * +balance+" and credited in Account No"
+	 * +recepientAccountId+" and your current Balance is "+customer.
+	 * getCustomerBalance());
+	 * 
+	 * modelAndView.setViewName("Output"); return modelAndView; }
+	 * 
+	 */
+
+	/*
+	 * modelAndView.addObject("balance", "Your current balance is: " +
+	 * userJourneyService.getBalance(userId) + ". Top up more below."); // Tops up
+	 * balance userJourneyService.topUpBalance(userId, topUpAmount); // Adds a
+	 * message saying how much you have topped up by
+	 * modelAndView.addObject("message", "You have updated the balance by " +
+	 * topUpAmount); return modelAndView;
+	 */
 }

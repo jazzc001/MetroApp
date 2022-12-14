@@ -16,5 +16,6 @@ public interface UserService {
 	
 	User topUpBalance(int userId, double topUpAmount);
 	 
+	User updateBalance(int userId, double fare);
 
 }

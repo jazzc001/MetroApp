@@ -42,65 +42,6 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 
 	}
 
-	/* ======= CREATE JOURNEY ======== */
-
-	@Override
-	public Journey createNewJourney(int userId, Station startStation, Station endStation) {
-		User user = restTemplate.getForObject("http://localhost:8080/user/id/" + userId, User.class);
-
-		double balance = user.getBalance();
-
-		if (balance > 20) {
-
-			startStation = restTemplate.getForObject("http://localhost:8082/station/name/{startstation}",
-					Station.class);
-			endStation = restTemplate.getForObject("http://localhost:8082/station/name/{endstation}", Station.class);
-			int startStationId = startStation.getStationId();
-			int endStationId = endStation.getStationId();
-
-			double totalFare = calculateFare(startStationId, endStationId);
-			LocalDateTime swipeInDateTime = LocalDateTime.now();
-			LocalDateTime swipeOutDateTime = LocalDateTime.now();
-
-			Journey journey = new Journey();
-
-			journey.setSwipeInStation(startStation.getStationName());
-			journey.setSwipeInStation(endStation.getStationName());
-			journey.setSwipeInDateAndTime(swipeInDateTime);
-			journey.setSwipeOutDateAndTime(swipeOutDateTime);
-			journey.setJourneyFare(totalFare);
-
-			return journey;
-		} else {
-			return null;
-		}
-	}
-
-	/* ======= CALCULATE FARE ======== */
-
-	public double calculateFare(int startStationId, int endStationId) {
-
-		int noOfStops = Math.abs(startStationId - endStationId);
-		double journeyFare = noOfStops * 5;
-		return journeyFare;
-
-	}
-
-///* ======= UPDATE BALANCE ======== */
-
-	@Override
-	public boolean updateBalance(int userId, double remainingBalance, int startStationId, int endStationId) {
-		User user = restTemplate.getForObject("http://localhost:8080/users/id/" + userId, User.class);
-
-		if (user != null) {
-			remainingBalance = user.getBalance() - calculateFare(startStationId, endStationId);
-			user.setBalance(remainingBalance);
-			return true;
-		}
-		return false;
-
-	}
-
 	/* ===================Get Balance====================== */
 	@Override
 	public double getBalance(int userId) {
@@ -157,4 +98,131 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 
 	}
 
+	/* ======= CREATE JOURNEY ======== */
+
+//	@Override
+//	public Journey createNewJourney(int userId, Station startStation, Station endStation) {
+//		User user = restTemplate.getForObject("http://localhost:8080/user/id/" + userId, User.class);
+//
+//		double balance = user.getBalance();
+//
+//		if (balance > 20) {
+//
+//			startStation = restTemplate.getForObject("http://localhost:8082/station/name/{startstation}",
+//					Station.class);
+//			endStation = restTemplate.getForObject("http://localhost:8082/station/name/{endstation}", Station.class);
+//			int startStationId = startStation.getStationId();
+//			int endStationId = endStation.getStationId();
+//
+//			double totalFare = calculateFare(startStationId, endStationId);
+//			LocalDateTime swipeInDateTime = LocalDateTime.now();
+//			LocalDateTime swipeOutDateTime = LocalDateTime.now();
+//
+//			Journey journey = new Journey();
+//
+//			journey.setSwipeInStation(startStation.getStationName());
+//			journey.setSwipeInStation(endStation.getStationName());
+//			journey.setSwipeInDateAndTime(swipeInDateTime);
+//			journey.setSwipeOutDateAndTime(swipeOutDateTime);
+//			journey.setJourneyFare(totalFare);
+//
+//			return journey;
+//		} else {
+//			return null;
+//		}
+//	}
+
+	/* ========== SWIPE IN ======= */
+
+	@Override
+	public Journey swipeIn(int userId, String startStationName) {
+
+		Journey currentJourney = new Journey();
+
+		Station station = restTemplate.getForObject("http://localhost:8082/station/name/" + startStationName,
+				Station.class);
+		startStationName = station.getStationName();
+
+		currentJourney.setUserId(userId);
+		currentJourney.setSwipeInStation(startStationName);
+		currentJourney.setSwipeInDateAndTime(LocalDateTime.now());
+
+		journeyDao.save(currentJourney);
+
+		return currentJourney;
+	}
+
+	@Override
+	public Journey swipeOut(int journeyId, String endStationName) {
+
+		Station station = restTemplate.getForObject("http://localhost:8082/station/name/" + endStationName,
+				Station.class);
+		endStationName = station.getStationName();
+
+		Journey currentJourney = journeyDao.searchJourneyByJourneyId(journeyId);
+		currentJourney.setSwipeOutStation(endStationName);
+		currentJourney.setSwipeOutDateAndTime(LocalDateTime.now());
+
+		journeyDao.save(currentJourney);
+
+		return currentJourney;
+	}
+
+	/* ======= CALCULATE FARE ======== */
+
+	public double calculateFare(int journeyId, String startStationName, String endStationName) {
+
+		Station startStation = restTemplate.getForObject("http://localhost:8082/station/name/" + startStationName,
+				Station.class);
+		Station endStation = restTemplate.getForObject("http://localhost:8082/station/name/" + endStationName,
+				Station.class);
+
+		Journey currentJourney = journeyDao.searchJourneyByJourneyId(journeyId);
+		int startStationId = startStation.getStationId();
+		int endStationId = endStation.getStationId();
+
+		int noOfStops = Math.abs(startStationId - endStationId);
+		double journeyFare = noOfStops * 5;
+
+		currentJourney.setJourneyFare(journeyFare);
+		journeyDao.save(currentJourney);
+
+		return journeyFare;
+
+	}
+
+	/* ======= UPDATE BALANCE ======== */
+
+	@Override
+	public User updateBalance(int userId, double fare) {
+		
+		HttpHeaders headers = new HttpHeaders();
+		
+		HttpEntity<User> entity = new HttpEntity<User>(headers);
+		
+		User user = restTemplate.exchange("http://localhost:8080/user/" + userId + "/" + fare, HttpMethod.PUT,
+				entity, User.class).getBody();
+		
+		if (user != null) {
+			return user;
+		} else {
+			return null;
+		}
+
+	}
+
+	/*
+	 * public User topUpBalance(int userId, double topUpAmount) {
+	 * 
+	 * HttpHeaders headers = new HttpHeaders(); HttpEntity<User> entity = new
+	 * HttpEntity<User>(headers);
+	 * 
+	 * User user = restTemplate.exchange("http://localhost:8080/user/id/" + userId +
+	 * "/" + topUpAmount, HttpMethod.PUT, entity, User.class).getBody(); try { if
+	 * (user != null) { return user; } else return null;
+	 * 
+	 * } catch (Exception ex) { return null; }
+	 * 
+	 * }
+	 */
 }

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Journey {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int journeyId;
 
 	private int userId;
@@ -26,5 +27,7 @@ public class Journey {
 	private LocalDateTime swipeInDateAndTime;
 	private LocalDateTime swipeOutDateAndTime;
 	private double journeyFare;
+	
+	
 
 }
