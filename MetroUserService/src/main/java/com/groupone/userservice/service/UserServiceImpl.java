@@ -35,13 +35,26 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User topUpBalance(int userId, double topUpAmount) {
 		User user = userDao.findById(userId).get();
-		if (user.getBalance() < 0) {
-			return null;
-		} else {
+		if (user != null) {
 			user.setBalance(user.getBalance() + topUpAmount);
 			userDao.save(user);
 			return user;
+		} else {
+			return null;
+
 		}
 
+	}
+
+	@Override
+	public User loginCheck(String email, String password) {
+		try {
+			User user = userDao.findByEmailAndPassword(email, password);
+			if (user != null)
+				return user;
+			return null;
+		} catch (Exception ex) {
+			return null;
+		}
 	}
 }

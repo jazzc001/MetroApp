@@ -31,16 +31,19 @@ public class UserResource {
 			return "User Not Added";
 	}
 
-	@PutMapping(path = "/user/id/{userId}/{topUp}", produces = MediaType.TEXT_PLAIN_VALUE)
-	public String topUpAmount(@PathVariable("userId") int userId, @PathVariable("topUp") double topUpAmount) {
-		if (userService.topUpBalance(userId, topUpAmount) != null)
-			return "TopUp Successfull";
-		else
-			return "TopUp Unsuccessfull";
+	@PutMapping(path = "/user/id/{userId}/{topUp}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public User topUpAmount(@PathVariable("userId") int userId, @PathVariable("topUp") double topUpAmount) {
+		return userService.topUpBalance(userId, topUpAmount);
 	}
 
 	@GetMapping(path = "/user/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public User searchByEmail(@PathVariable("email") String email) {
 		return userService.searchByEmail(email);
+	}
+
+	@GetMapping(path = "/user/{email}/{password}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public User searchByEmailAndPassword(@PathVariable("email") String email,
+			@PathVariable("password") String password) {
+		return userService.loginCheck(email, password);
 	}
 }

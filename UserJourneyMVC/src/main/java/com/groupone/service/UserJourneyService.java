@@ -8,7 +8,7 @@ import com.groupone.entity.User;
 
 public interface UserJourneyService {
 
-	boolean login(String email, String password);
+	User login(String email, String password);
 	
 	User createNewUser(String firstName, String lastName, String Email, String password, double balance);
 

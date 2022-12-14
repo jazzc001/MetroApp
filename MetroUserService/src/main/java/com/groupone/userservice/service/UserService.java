@@ -9,6 +9,8 @@ public interface UserService {
 	User searchByUserId(int userId);
 	
 	boolean addUser(User user);
+	
+	User loginCheck(String email, String password);
 
 	User searchByEmail(String email);
 	
