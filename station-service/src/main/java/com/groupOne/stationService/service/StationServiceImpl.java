@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.groupOne.stationService.entity.Station;
-import com.groupOne.stationService.entity.StationList;
 import com.groupOne.stationService.persistence.StationDao;
 
 import lombok.Setter;
