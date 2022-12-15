@@ -1,5 +1,7 @@
 package com.groupone.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.groupone.entity.Journey;
+import com.groupone.entity.JourneyList;
 import com.groupone.entity.User;
 import com.groupone.service.UserJourneyService;
 
@@ -98,6 +101,46 @@ public class UserController {
 		modelAndView.addObject("user", user);
 		modelAndView.setViewName("Dashboard");
 
+		return modelAndView;
+	}
+
+	/* ======== FARES CONTROLLER ======= */
+
+	@RequestMapping("/fares")
+	public ModelAndView faresPageController() {
+		return new ModelAndView("Fares");
+	}
+
+	/* ======== LOGOUT CONTROLLER ======= */
+
+	@RequestMapping("/logOut")
+	public ModelAndView logoutPageController(@ModelAttribute("user") User user, HttpSession session) {
+		ModelAndView modelAndView = new ModelAndView();
+		session.removeAttribute("user");
+
+		String message = "Thank you for using MetroApp";
+		modelAndView.addObject("message", message);
+		modelAndView.setViewName("HomePage");
+
+		return modelAndView;
+
+	}
+
+	/* ======== PAST JOURNEY CONTROLLER ======= */
+
+	@RequestMapping("/pastJourneys")
+	public ModelAndView pastJourneysPageController(HttpSession session) {
+		ModelAndView modelAndView = new ModelAndView();
+
+		User user = ((User) session.getAttribute("user"));
+		List<Journey> journeyList = userJourneyService.searchJourneyByUserID(user.getUserId());
+		if (journeyList != null) {
+			modelAndView.addObject("journeyList", journeyList);
+			modelAndView.setViewName("PastJourney");
+		} else {
+			modelAndView.addObject("message", "You have made no journeys");
+			modelAndView.setViewName("PastJourney");
+		}
 		return modelAndView;
 	}
 

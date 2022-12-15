@@ -3,7 +3,6 @@ package com.groupone.service;
 import java.util.List;
 
 import com.groupone.entity.Journey;
-import com.groupone.entity.Station;
 import com.groupone.entity.User;
 
 public interface UserJourneyService {
