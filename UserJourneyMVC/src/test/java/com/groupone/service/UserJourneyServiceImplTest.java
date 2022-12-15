@@ -14,7 +14,16 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
@@ -22,8 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 class UserJourneyServiceImplTest {
@@ -33,6 +41,12 @@ class UserJourneyServiceImplTest {
 
     @Mock
     private JourneyDao journeyDao;
+
+    @Mock
+    private RestTemplate restTemplate;
+
+    @Mock
+    HttpHeaders headers;
 
     private AutoCloseable  autoCloseable;
 
@@ -64,37 +78,72 @@ class UserJourneyServiceImplTest {
     @Test
     void createNewJourney() {
         User mockUser = new User(101, "Jasmine", "Chan", "j@gmail.com", "1234", 100);
+        Station startStation = new Station(1, "Chiswick");
+        Station endStation = new Station(1, "Chiswick");
+
+        Journey mockJourney = new Journey(123,101,"Chiswick", "London Bridge", LocalDateTime.now(), LocalDateTime.now(), 5);
+
+        //mocking behaviour in caluculate fare
+        when(restTemplate.getForObject("http://localhost:8082/station/name/" + startStation.getStationName(), Station.class)).thenReturn(startStation);
+        when(restTemplate.getForObject("http://localhost:8082/station/name/" + endStation.getStationName(), Station.class)).thenReturn(endStation);
+        when(journeyDao.searchJourneyByJourneyId(mockJourney.getJourneyId())).thenReturn(mockJourney);
+
+        when(restTemplate.getForObject("http://localhost:8080/user/id/" + mockUser.getUserId(), User.class)).thenReturn(mockUser);
+        when(restTemplate.getForObject("http://localhost:8080/users/{userId}", User.class)).thenReturn(mockUser);
 
 
-//        try {
-//            when(journeyDao.createJourney(123,101,101,"Chiswick", "London Bridge", LocalDateTime.now(), LocalDateTime.now(), 30.05 )).thenReturn(1);
-//        } catch (SQLIntegrityConstraintViolationException e) {
-//            throw new RuntimeException(e);
-//        }
-            Station start = new Station(1, "Chiswick");
-        Station end = new Station(1, "Chiswick");
+        when(restTemplate.getForObject("http://localhost:8082/station/name/{startstation}", Station.class)).thenReturn(startStation);
+        when(restTemplate.getForObject("http://localhost:8082/station/name/{endstation}", Station.class)).thenReturn(endStation);
 
-            Journey mockJourney = new Journey(123,101,"Chiswick", "London Bridge", LocalDateTime.now(), LocalDateTime.now(), 30.05 );
-            when(userJourneyServiceImpl.createNewJourney(101, start, end)).thenReturn(mockJourney);
+
+
+
+        Journey expectedJourney = userJourneyServiceImpl.createNewJourney(mockUser.getUserId(), startStation, endStation);
+
+        assertEquals(expectedJourney, mockJourney);
     }
 
-    //@Test
-    //	void testAddEmployeeOne() {
-    //		//Specifying the behavior of the mock
-    //		when(employeedao.insertRecord(new Employee(110, "JJJJ", "Exdecutive", "Sales", 23000, LocalDate.now()))).thenReturn(1);
-    //
-    //		assertTrue(employeeServiceImpl.addEmployee(new Employee(110, "JJJJ", "Exdecutive", "Sales", 23000, LocalDate.now())));
-
     @Test
-    void calculateFare() {
+    void calculateFareTest() {
+
+        User mockUser = new User(101, "Jasmine", "Chan", "j@gmail.com", "1234", 100);
+        Station startStation = new Station(1, "Chiswick");
+        Station endStation = new Station(1, "London Bridge");
+
+        Journey mockJourney = new Journey(123,101,"Chiswick", "London Bridge", LocalDateTime.now(), LocalDateTime.now(), 30.05 );
+        Journey mockCurrentJourney = new Journey(123,101,"Chiswick", "London Bridge", LocalDateTime.now(), LocalDateTime.now(), 30.05 );
+
+
+        when(restTemplate.getForObject("http://localhost:8082/station/name/" + startStation.getStationName(), Station.class)).thenReturn(startStation);
+        when(restTemplate.getForObject("http://localhost:8082/station/name/" + endStation.getStationName(), Station.class)).thenReturn(endStation);
+        when(journeyDao.searchJourneyByJourneyId(mockJourney.getJourneyId())).thenReturn(mockCurrentJourney);
+
+        double expectedFare = userJourneyServiceImpl.calculateFare(mockJourney.getJourneyId(), startStation.getStationName(), endStation.getStationName());
+
+        assertEquals(expectedFare, 0);
     }
 
     @Test
     void updateBalance() {
+
+        HttpEntity<User> entity = new HttpEntity<User>(headers);
+
+
+
+        User mockUser = new User(101, "Jasmine", "Chan", "j@gmail.com", "1234", 100);
+        Journey mockJourney = new Journey(123,101,"Chiswick", "London Bridge", LocalDateTime.now(), LocalDateTime.now(), 5 );
+        when(restTemplate.exchange("http://localhost:8080/user/" + mockUser.getUserId() + "/" + mockJourney.getJourneyFare(), HttpMethod.PUT,
+                entity, User.class).getBody()).thenReturn(mockUser);
+        User expectedReturnUser = new User(101, "Jasmine", "Chan", "j@gmail.com", "1234", 95);
+        assertEquals(mockUser, expectedReturnUser);
     }
 
     @Test
     void getBalance() {
+        User mockUser = new User(101, "Jasmine", "Chan", "j@gmail.com", "1234", 100);
+        when(restTemplate.getForObject("http://localhost:8080/users/{userId}", User.class)).thenReturn(mockUser);
+        double mockBalance = userJourneyServiceImpl.getBalance(mockUser.getUserId());
+        assertEquals(mockBalance, 100);
     }
 
     @Test

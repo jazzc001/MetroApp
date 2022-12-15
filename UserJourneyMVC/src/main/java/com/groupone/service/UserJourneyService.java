@@ -22,7 +22,7 @@ public interface UserJourneyService {
 	
 	/* == CREATE JOURNEY == */
 	
-//	Journey createNewJourney(int userId, Station startStation, Station endStation);
+	Journey createNewJourney(int userId, Station startStation, Station endStation);
 
 	/* == CALCULATE FARE == */
 
