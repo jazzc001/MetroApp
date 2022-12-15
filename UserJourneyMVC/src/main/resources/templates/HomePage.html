@@ -2,14 +2,125 @@
 <html xmlns:th="https://thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Home Page</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://kit.fontawesome.com/592efcffa0.js"
+	crossorigin="anonymous"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+	integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+	integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+	crossorigin="anonymous"></script>
+
+<link th:href="@{css/style.css}" rel="stylesheet" />
+<title>MetroApp</title>
 </head>
+
 <body>
-	<h1>Metro Card</h1>
+	<!-- NAVIGATION BAR  -->
+	<nav class="navbar navbar-expand-md navbar-light">
+		<div class="container-md d-flex">
+			<a class="navbar-brand" href="./">MetroApp</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#collapsibleNavbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-end"
+				id="collapsibleNavbar">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link active" href="./">Home</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="./fares">Fares</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="./loginPage">Login</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- HEADER  -->
+	<header>
+		<section>
+			<div class="container hero">
+				<hr class="mt-0">
+				<div class="row flex-lg-row-reverse align-items-start g-5 py-3">
+					<div class="col-lg-6">
+						<div class="embed-responsive embed-responsive-4by3">
+							<img alt="women-waiting-at-platform"
+								src="../static/img/homepage.jpg"
+								class="embed-responsive-item rounded"
+								th:src="@{img/homepage.jpg}">
+						</div>
+					</div>
+					<div class="col-10 col-sm-8 col-lg-6">
+						<h1 class="display-5 fw-bold lh-1 py-3">Get on track</h1>
+						<p class="lead">
+							There are so many things to consider when you travel, you
+							probably have many questions and there is no single website with
+							all the information. </br> <br> <span class="brand-name">MetroApp</strong></span>
+							is a one-stop website with all the information you need about
+							your travels.
+						</p>
+						<div class="row d-md-flex ">
+							<div class="col-lg-12 button-box">
+								<a href="./loginPage"
+									class="btn btn-primary btn-lg px-4 mr-2 shadow-sm">Login<i
+									class="fa-solid fa-arrow-right ml-lg-2"></i></a> <a
+									href="./registerPage"
+									class="btn btn-primary btn-lg px-4 mr-2 shadow-sm">Register<i
+									class="fa-solid fa-arrow-right ml-lg-2"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</header>
+	<!-- FOOTER  -->
+	<footer class="mt-auto">
+		<section class="subscription mt-2">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="subscription-wrapper shadow-sm">
+							<div
+								class="d-flex subscription-content justify-content-between align-items-center flex-column flex-md-row text-center text-md-left">
+								<h3 th:text="${message}" class="flex-fill"
+									style="color: #000958"></h3>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container credit text-center mt-3">
+				<p>
+					<a href="https://github.com/jazzc001/MetroApp" target="_blank">Open
+						Source Code</a> by Yusra, Anna, Zoe, Jasmine & Amal
+				</p>
+			</div>
+		</section>
+	</footer>
+
+
+	<!-- <h1>Metro Card</h1>
 	<a href="./loginPage">Log in</a>
 	<br>
 	<a href="./registerPage">Register</a>
 	<br>
-	<h1 th:text="${message}"> </h1>
+	<h1 th:text="${message}"></h1> -->
+
+</body>
+
+</html>
+
 </body>
 </html>

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.groupone.entity.Journey;
+import com.groupone.entity.JourneyList;
 import com.groupone.entity.Station;
 import com.groupone.entity.User;
 import com.groupone.persistence.JourneyDao;
@@ -195,14 +196,15 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 
 	@Override
 	public User updateBalance(int userId, double fare) {
-		
+
 		HttpHeaders headers = new HttpHeaders();
-		
+
 		HttpEntity<User> entity = new HttpEntity<User>(headers);
-		
-		User user = restTemplate.exchange("http://localhost:8080/user/" + userId + "/" + fare, HttpMethod.PUT,
-				entity, User.class).getBody();
-		
+
+		User user = restTemplate
+				.exchange("http://localhost:8080/user/" + userId + "/" + fare, HttpMethod.PUT, entity, User.class)
+				.getBody();
+
 		if (user != null) {
 			return user;
 		} else {
