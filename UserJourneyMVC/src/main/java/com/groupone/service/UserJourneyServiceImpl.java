@@ -75,11 +75,11 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 	/* ======= CREATE NEW USER ======== */
 
 	@Override
-	public User createNewUser(String firstName, String lastName, String email, String password, double balance) {
+	public User createNewUser(String firstName, String lastName, String email, String password, double balance)  {
 
 		try {
 			User newUser = new User();
-
+			//Dont have any set userID, return with 0 id need to implement returning with ID
 			newUser.setFirstName(firstName);
 			newUser.setLastName(lastName);
 			newUser.setEmail(email);
@@ -87,13 +87,16 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 			newUser.setBalance(100);
 
 			String postNewUser = restTemplate.postForObject("http://localhost:8080/newUser", newUser, String.class);
-
+			System.out.println(postNewUser); //
 			if (postNewUser.equals("User Added")) {
-				return newUser;
+				System.out.println(postNewUser);
+				return newUser; //Returning user with ID equal to 0
 			} else {
+				System.out.println(postNewUser);
 				return null;
 			}
 		} catch (Exception ex) {
+			System.out.println(ex);
 			return null;
 		}
 
@@ -101,37 +104,37 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 
 	/* ======= CREATE JOURNEY ======== */
 
-	@Override
-	public Journey createNewJourney(int userId, Station startStation, Station endStation) {
-		User user = restTemplate.getForObject("http://localhost:8080/user/id/" + userId, User.class);
-
-		double balance = user.getBalance();
-
-		if (balance > 20) {
-
-			startStation = restTemplate.getForObject("http://localhost:8082/station/name/{startstation}",
-					Station.class);
-			endStation = restTemplate.getForObject("http://localhost:8082/station/name/{endstation}", Station.class);
-			int startStationId = startStation.getStationId();
-			int endStationId = endStation.getStationId();
-
-			double totalFare = calculateFare(userId, startStation.getStationName(), endStation.getStationName());
-			LocalDateTime swipeInDateTime = LocalDateTime.now();
-			LocalDateTime swipeOutDateTime = LocalDateTime.now();
-
-			Journey journey = new Journey();
-
-			journey.setSwipeInStation(startStation.getStationName());
-			journey.setSwipeInStation(endStation.getStationName());
-			journey.setSwipeInDateAndTime(swipeInDateTime);
-			journey.setSwipeOutDateAndTime(swipeOutDateTime);
-			journey.setJourneyFare(totalFare);
-
-			return journey;
-		} else {
-			return null;
-		}
-	}
+//	@Override
+//	public Journey createNewJourney(int userId, Station startStation, Station endStation) {
+//		User user = restTemplate.getForObject("http://localhost:8080/user/id/" + userId, User.class);
+//
+//		double balance = user.getBalance();
+//
+//		if (balance > 20) {
+//
+//			startStation = restTemplate.getForObject("http://localhost:8082/station/name/{startstation}",
+//					Station.class);
+//			endStation = restTemplate.getForObject("http://localhost:8082/station/name/{endstation}", Station.class);
+//			int startStationId = startStation.getStationId();
+//			int endStationId = endStation.getStationId();
+//
+//			double totalFare = calculateFare(userId, startStation.getStationName(), endStation.getStationName());
+//			LocalDateTime swipeInDateTime = LocalDateTime.now();
+//			LocalDateTime swipeOutDateTime = LocalDateTime.now();
+//
+//			Journey journey = new Journey();
+//
+//			journey.setSwipeInStation(startStation.getStationName());
+//			journey.setSwipeInStation(endStation.getStationName());
+//			journey.setSwipeInDateAndTime(swipeInDateTime);
+//			journey.setSwipeOutDateAndTime(swipeOutDateTime);
+//			journey.setJourneyFare(totalFare);
+//
+//			return journey;
+//		} else {
+//			return null;
+//		}
+//	}
 
 	/* ========== SWIPE IN ======= */
 
@@ -208,6 +211,7 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 		if (user != null) {
 			return user;
 		} else {
+
 			return null;
 		}
 
