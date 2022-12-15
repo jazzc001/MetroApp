@@ -18,10 +18,6 @@ public interface UserJourneyService {
 	/* == PAST JOURNEY == */
 
 	List<Journey> searchJourneyByUserID(Integer userId);
-	
-	/* == CREATE JOURNEY == */
-	
-//	Journey createNewJourney(int userId, Station startStation, Station endStation);
 
 	/* == CALCULATE FARE == */
 

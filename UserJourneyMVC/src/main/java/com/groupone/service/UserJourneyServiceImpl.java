@@ -3,7 +3,6 @@ package com.groupone.service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.apache.catalina.users.SparseUserDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -99,14 +98,7 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 
 	}
 	/* ========== SWIPE IN ======= */
-// IMPORTANT
-// does not create a journey if no money in account - remove balance check from controller and move to service
-// needs to update balance when topped up
-// cant swipe out if you have not swiped in 
 	
-	
-// add links to pages to move within the app
-
 	@Override
 	public Journey swipeIn(int userId, String startStationName) {
 
