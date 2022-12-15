@@ -45,7 +45,7 @@ class MetroUserServiceApplicationTests {
 	@Test
 	@DisplayName("Search User By ID - Positive Scenario")
 	void testsearchUserByIdPositive() {
-		User user = new User();
+		User user = new User(101,"FirstName", "LastName", "test@mail.com", "testPassword", 50);
 		when(userDao.searchByUserId(101)).thenReturn(user);
 		assertEquals(user, userServiceImpl.searchByUserId(101));
 	}
@@ -60,7 +60,7 @@ class MetroUserServiceApplicationTests {
 	@Test
 	@DisplayName("Search User By Email - Positive Scenario")
 	void testSearchUserByEmailPositive() {
-		User user = new User();
+		User user = new User(101,"FirstName", "LastName", "test@mail.com", "testPassword", 50);
 		when(userDao.searchByEmail("test@gmail.com")).thenReturn(user);
 		assertEquals(user, userServiceImpl.searchByEmail("test@gmail.com"));
 	}
