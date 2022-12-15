@@ -27,7 +27,6 @@ public class Journey {
 	private LocalDateTime swipeInDateAndTime;
 	private LocalDateTime swipeOutDateAndTime;
 	private double journeyFare;
-	
-	
+
 
 }

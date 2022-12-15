@@ -158,14 +158,12 @@ public class UserController {
 
 		User user = ((User) session.getAttribute("user"));
 		if (userJourneyService.topUpBalance(user.getUserId(), topUpAmount) != null) {
+			session.setAttribute("user", user);
 			message = "Your account has been increased by " + topUpAmount;
-
 		} else {
 			message = topUpAmount + " could not be added to your account, please try again!";
-
 		}
 
-		session.setAttribute("user", user);
 		modelAndView.addObject("message", message);
 		modelAndView.setViewName("Dashboard");
 
@@ -186,9 +184,9 @@ public class UserController {
 		String message;
 
 		User user = ((User) session.getAttribute("user"));
-		if (userJourneyService.swipeIn(user.getUserId(), station) != null) {
+		Journey journey = userJourneyService.swipeIn(user.getUserId(), station);
+		if (journey != null) {
 			if (user.getBalance() > 20) {
-				Journey journey = userJourneyService.swipeIn(user.getUserId(), station);
 				session.setAttribute("journey", journey);
 				message = "You have successfully swiped in at " + station;
 			} else {
@@ -214,6 +212,7 @@ public class UserController {
 		String message;
 
 		Journey journey = ((Journey) session.getAttribute("journey"));
+
 		journey.setSwipeOutStation(station);
 
 		if (userJourneyService.swipeOut(journey.getJourneyId(), station) != null) {
@@ -231,33 +230,5 @@ public class UserController {
 		return modelAndView;
 
 	}
-	/*
-	 * @RequestMapping("/transferFunds") public ModelAndView
-	 * transferFundsController(@RequestParam("accountId")int
-	 * recepientAccountId,@RequestParam("amount") double balance,HttpSession
-	 * session) { ModelAndView modelAndView=new ModelAndView();
-	 * 
-	 * int myAccountId=((Customer)session.getAttribute("customer")).getAccountId();
-	 * Customer customer=customerService.transferFunds(myAccountId,
-	 * recepientAccountId,balance ); if(customer==null) {
-	 * modelAndView.addObject("message", "Transaction Failed");
-	 * session.setAttribute("customer", customer); }else
-	 * modelAndView.addObject("message",
-	 * "Your Account has been debited with balance "
-	 * +balance+" and credited in Account No"
-	 * +recepientAccountId+" and your current Balance is "+customer.
-	 * getCustomerBalance());
-	 * 
-	 * modelAndView.setViewName("Output"); return modelAndView; }
-	 * 
-	 */
 
-	/*
-	 * modelAndView.addObject("balance", "Your current balance is: " +
-	 * userJourneyService.getBalance(userId) + ". Top up more below."); // Tops up
-	 * balance userJourneyService.topUpBalance(userId, topUpAmount); // Adds a
-	 * message saying how much you have topped up by
-	 * modelAndView.addObject("message", "You have updated the balance by " +
-	 * topUpAmount); return modelAndView;
-	 */
 }

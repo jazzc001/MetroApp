@@ -3,6 +3,7 @@ package com.groupone.service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.apache.catalina.users.SparseUserDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.groupone.entity.Journey;
-import com.groupone.entity.JourneyList;
 import com.groupone.entity.Station;
 import com.groupone.entity.User;
 import com.groupone.persistence.JourneyDao;
@@ -79,7 +79,7 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 
 		try {
 			User newUser = new User();
-
+			
 			newUser.setFirstName(firstName);
 			newUser.setLastName(lastName);
 			newUser.setEmail(email);
@@ -87,7 +87,7 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 			newUser.setBalance(100);
 
 			String postNewUser = restTemplate.postForObject("http://localhost:8080/newUser", newUser, String.class);
-
+	
 			if (postNewUser.equals("User Added")) {
 				return newUser;
 			} else {
@@ -99,41 +99,14 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 
 	}
 
-	/* ======= CREATE JOURNEY ======== */
-
-//	@Override
-//	public Journey createNewJourney(int userId, Station startStation, Station endStation) {
-//		User user = restTemplate.getForObject("http://localhost:8080/user/id/" + userId, User.class);
-//
-//		double balance = user.getBalance();
-//
-//		if (balance > 20) {
-//
-//			startStation = restTemplate.getForObject("http://localhost:8082/station/name/{startstation}",
-//					Station.class);
-//			endStation = restTemplate.getForObject("http://localhost:8082/station/name/{endstation}", Station.class);
-//			int startStationId = startStation.getStationId();
-//			int endStationId = endStation.getStationId();
-//
-//			double totalFare = calculateFare(startStationId, endStationId);
-//			LocalDateTime swipeInDateTime = LocalDateTime.now();
-//			LocalDateTime swipeOutDateTime = LocalDateTime.now();
-//
-//			Journey journey = new Journey();
-//
-//			journey.setSwipeInStation(startStation.getStationName());
-//			journey.setSwipeInStation(endStation.getStationName());
-//			journey.setSwipeInDateAndTime(swipeInDateTime);
-//			journey.setSwipeOutDateAndTime(swipeOutDateTime);
-//			journey.setJourneyFare(totalFare);
-//
-//			return journey;
-//		} else {
-//			return null;
-//		}
-//	}
-
 	/* ========== SWIPE IN ======= */
+// IMPORTANT
+// does not create a journey if no money in account - remove balance check from controller and move to service
+// needs to update balance when topped up
+// cant swipe out if you have not swiped in 
+	
+	
+// add links to pages to move within the app
 
 	@Override
 	public Journey swipeIn(int userId, String startStationName) {
@@ -147,9 +120,7 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 		currentJourney.setUserId(userId);
 		currentJourney.setSwipeInStation(startStationName);
 		currentJourney.setSwipeInDateAndTime(LocalDateTime.now());
-
 		journeyDao.save(currentJourney);
-
 		return currentJourney;
 	}
 
@@ -213,18 +184,4 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 
 	}
 
-	/*
-	 * public User topUpBalance(int userId, double topUpAmount) {
-	 * 
-	 * HttpHeaders headers = new HttpHeaders(); HttpEntity<User> entity = new
-	 * HttpEntity<User>(headers);
-	 * 
-	 * User user = restTemplate.exchange("http://localhost:8080/user/id/" + userId +
-	 * "/" + topUpAmount, HttpMethod.PUT, entity, User.class).getBody(); try { if
-	 * (user != null) { return user; } else return null;
-	 * 
-	 * } catch (Exception ex) { return null; }
-	 * 
-	 * }
-	 */
 }

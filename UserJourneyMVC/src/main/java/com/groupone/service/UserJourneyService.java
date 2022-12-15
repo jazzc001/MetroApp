@@ -44,6 +44,4 @@ public interface UserJourneyService {
 	Journey swipeOut(int journeyId, String endStationName);
 	
 	
-	
-	
 }
