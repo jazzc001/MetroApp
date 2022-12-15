@@ -47,8 +47,9 @@
 
 	</nav>
 
-	<h2>Hi XXX, Let's Start your journey</h2>
-	<h2>Your current balance is £30.</h2>
+	<h3 th:text="| Time to swipe in ${session.user.firstName}|"></h3>
+	<h3 th:text="| Your current balance is: ${session.user.balance}|"></h3>
+	
 	<form action="./swipeIn">
 		<label for="stations">Start</label> <select name="station"
 			id="station">

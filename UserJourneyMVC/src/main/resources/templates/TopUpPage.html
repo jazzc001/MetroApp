@@ -46,14 +46,15 @@
 		</div>
 
 	</nav>
-	
-	<span> Your current balance is: </span>
+
+	<h3 th:text="| Your current balance is: ${session.user.balance}|"></h3>
+	<span> Minimum Amount Needed for Journey is £20 </span>
 	<h2></h2>
 
 	<form action="./topUp">
 
-		Top Up Amount: <input type="number" name="topUpAmount" step=".01" /><br />
-		<br>
+		Top Up Amount: <input type="number" name="topUpAmount" step="1"
+			min="1" /><br /> <br>
 		<button type="submit">Submit</button>
 
 	</form>

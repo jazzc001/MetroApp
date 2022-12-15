@@ -57,8 +57,8 @@
 		<tr th:each="journeyList: ${journeyList}">
 			<td th:text="${journeyList.swipeInStation}"></td>
 			<td th:text="${journeyList.swipeOutStation}"></td>
-			<td th:text="${journeyList.swipeInDateAndTime}"></td>
-			<td th:text="${journeyList.swipeOutDateAndTime}"></td>
+			<td th:text="${#temporals.format(journeyList.swipeInDateAndTime), 'dd-MM-yyyy HH:mm'}"></td>
+			<td th:text="${#temporals.format(journeyList.swipeOutDateAndTime), 'dd-MM-yyyy HH:mm'}"></td>
 			<td th:text="${journeyList.journeyFare}"></td>
 		</tr>
 	</table>

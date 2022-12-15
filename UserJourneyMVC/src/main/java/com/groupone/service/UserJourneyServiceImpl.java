@@ -1,6 +1,7 @@
 package com.groupone.service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,14 @@ import com.groupone.persistence.JourneyDao;
 @Service
 public class UserJourneyServiceImpl implements UserJourneyService {
 
+
 	@Autowired
 	private JourneyDao journeyDao;
 
 	@Autowired
 	private RestTemplate restTemplate;
+
+
 
 	/* ======= LOGIN ======== */
 	@Override
@@ -59,9 +63,13 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 
 		User user = restTemplate.exchange("http://localhost:8080/user/id/" + userId + "/" + topUpAmount, HttpMethod.PUT,
 				entity, User.class).getBody();
+		user = restTemplate.getForObject("http://localhost:8080/user/id/"+userId, User.class);
+		
 		try {
 			if (user != null) {
+				System.out.println("Service: "+ user);
 				return user;
+			
 			} else
 				return null;
 
@@ -124,7 +132,7 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 
 		Journey currentJourney = journeyDao.searchJourneyByJourneyId(journeyId);
 		currentJourney.setSwipeOutStation(endStationName);
-		currentJourney.setSwipeOutDateAndTime(LocalDateTime.now());
+//		currentJourney.setSwipeOutDateAndTime(LocalDateTime.now());
 
 		journeyDao.save(currentJourney);
 

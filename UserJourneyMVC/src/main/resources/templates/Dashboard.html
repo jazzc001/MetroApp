@@ -46,9 +46,11 @@
 	</nav>
 
 	<!-- MAIN  -->
+	<h3 th:text="| Welcome to ${session.user.firstName}'s Dashboard|"></h3>
 
-	<h3></h3>
-	<span></span>
+	<h3 th:text="| Your current balance is: ${session.user.balance}|"></h3>
+
+
 
 	<a style="color: black" href="./swipeInPage">Start your journey</a>
 	<br>
@@ -64,8 +66,6 @@
 	<br>
 	<a style="color: black" href="./topUpPage">Top Up</a>
 	<br>
-	<br>
-	<a style="color: black" href="./logOut">Log Out</a>
 	<br>
 
 	<!-- FOOTER  -->

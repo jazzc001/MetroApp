@@ -97,6 +97,7 @@ public class UserController {
 
 		user.getBalance();
 		user.getFirstName();
+		session.setAttribute("user", user);
 
 		modelAndView.addObject("user", user);
 		modelAndView.setViewName("Dashboard");
@@ -157,13 +158,20 @@ public class UserController {
 		String message;
 
 		User user = ((User) session.getAttribute("user"));
+
 		if (userJourneyService.topUpBalance(user.getUserId(), topUpAmount) != null) {
+			// user = ((User) session.getAttribute("user"));
+			user.setBalance(user.getBalance() + topUpAmount);
 			session.setAttribute("user", user);
+
+			System.out.println(user);
+
 			message = "Your account has been increased by " + topUpAmount;
 		} else {
 			message = topUpAmount + " could not be added to your account, please try again!";
 		}
 
+		modelAndView.addObject("user", user);
 		modelAndView.addObject("message", message);
 		modelAndView.setViewName("Dashboard");
 
@@ -184,18 +192,21 @@ public class UserController {
 		String message;
 
 		User user = ((User) session.getAttribute("user"));
-		Journey journey = userJourneyService.swipeIn(user.getUserId(), station);
-		if (journey != null) {
-			if (user.getBalance() > 20) {
+		if (user.getBalance() >= 20) {
+			Journey journey = userJourneyService.swipeIn(user.getUserId(), station);
+			if (journey != null) {
 				session.setAttribute("journey", journey);
 				message = "You have successfully swiped in at " + station;
 			} else {
-				message = "You need to top up your account";
+				message = "Seek assisstance";
 			}
-			modelAndView.addObject("message", message);
-			modelAndView.setViewName("Dashboard");
+
+		} else {
+			message = "You need to top up your account";
 		}
 
+		modelAndView.addObject("message", message);
+		modelAndView.setViewName("Dashboard");
 		return modelAndView;
 	}
 
@@ -212,19 +223,25 @@ public class UserController {
 		String message;
 
 		Journey journey = ((Journey) session.getAttribute("journey"));
-
-		journey.setSwipeOutStation(station);
-
-		if (userJourneyService.swipeOut(journey.getJourneyId(), station) != null) {
-			double fare = userJourneyService.calculateFare(journey.getJourneyId(), journey.getSwipeInStation(),
-					journey.getSwipeOutStation());
-			User updateBalance = userJourneyService.updateBalance(journey.getUserId(), fare);
-			message = "You have successfully swiped out at " + station + " and your journey cost is " + fare
-					+ " and your remaining balance is  " + updateBalance.getBalance();
+		User user = ((User) session.getAttribute("user"));
+		if (journey == null) {
+			message = "You have not swiped in!";
 		} else {
-			message = "You have not swiped out, please try again!";
-		}
+			journey.setSwipeOutStation(station);
 
+			if (userJourneyService.swipeOut(journey.getJourneyId(), station) != null) {
+				double fare = userJourneyService.calculateFare(journey.getJourneyId(), journey.getSwipeInStation(),
+						journey.getSwipeOutStation());
+				User updateBalance = userJourneyService.updateBalance(journey.getUserId(), fare);
+				user.setBalance(updateBalance.getBalance());
+				session.setAttribute("user", user);
+				message = "You have successfully swiped out at " + station + " and your journey cost is " + fare
+						+ " and your remaining balance is  " + updateBalance.getBalance();
+			} else {
+				message = "You have not swiped out, please try again!";
+			}
+
+		}
 		modelAndView.addObject("message", message);
 		modelAndView.setViewName("Dashboard");
 		return modelAndView;
