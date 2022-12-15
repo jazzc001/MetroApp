@@ -98,7 +98,6 @@ public class UserJourneyServiceImpl implements UserJourneyService {
 		}
 
 	}
-
 	/* ========== SWIPE IN ======= */
 // IMPORTANT
 // does not create a journey if no money in account - remove balance check from controller and move to service
