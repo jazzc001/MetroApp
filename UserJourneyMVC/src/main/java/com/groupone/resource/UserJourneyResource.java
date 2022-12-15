@@ -15,8 +15,8 @@ public class UserJourneyResource {
 	@Autowired
 	private UserJourneyService userJourneyService;
 
-	@GetMapping(path = "/journey/{iId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public JourneyList searchJourneyByUserIdResource(@PathVariable("uId") Integer userId) {
+	@GetMapping(path = "/journeys/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public JourneyList searchJourneyByUserIdResource(@PathVariable("userId") Integer userId) {
 		return new JourneyList(userJourneyService.searchJourneyByUserID(userId));
 	}
 
