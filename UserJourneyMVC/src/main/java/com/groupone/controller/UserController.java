@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.groupone.entity.Journey;
-import com.groupone.entity.JourneyList;
 import com.groupone.entity.User;
 import com.groupone.service.UserJourneyService;
 
