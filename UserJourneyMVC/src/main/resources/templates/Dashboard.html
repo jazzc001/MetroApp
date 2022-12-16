@@ -45,44 +45,131 @@
 		</div>
 	</nav>
 
-	<!-- MAIN  -->
-	<h3 th:text="| Welcome to ${session.user.firstName}'s Dashboard|"></h3>
+	<!-- HEADER  -->
 
-	<h3 th:text="| Your current balance is: ${session.user.balance}|"></h3>
+	<header>
+		<section>
+			<div class="container hero">
+				<hr class="mt-0">
+				<h1 th:text="|${session.user.firstName}'s Dashboard|"
+					class="display-5 fw-bold lh-1 mb-3"></h1>
+				<h3 th:text="| Your current balance is: £ ${session.user.balance}|"></h3>
+				<h3 th:text="${message}" class="flex-fill" style="color: #000958"></h3>
+			</div>
+		</section>
 
 
+	</header>
 
-	<a style="color: black" href="./swipeInPage">Start your journey</a>
-	<br>
-	<br>
-	<a style="color: black" href="./swipeOutPage">End your journey</a>
-	<br>
-	<br>
-	<a style="color: black" href="./pastJourneys">Past journeys</a>
-	<br>
-	<br>
-	<a style="color: black" href="./fares">View Fares</a>
-	<br>
-	<br>
-	<a style="color: black" href="./topUpPage">Top Up</a>
-	<br>
-	<br>
+	<!-- MAIN SECTION  -->
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card p-2 my-3" style="width: 100%">
+						<div class="row">
+							<div class="col-sm-3">
+								<img class="card-img img-fluid rounded-pill"
+									src="../img/startJourney.webp"
+									th:src="@{img/startJourney.webp}" alt="Image of Train Station" />
+							</div>
+							<div class="col-sm-9 p-3">
+								<div class="card-body-right">
+									<h4 class="card-title">Start Journey</h4>
+									<p class="card-text">Swipe in to your chosen station and
+										begin your journey with us</p>
+									<a class="btn btn-primary" href="./swipeInPage">Swipe In</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="card p-2 my-3" style="width: 100%">
+						<div class="row">
+							<div class="col-sm-3">
+								<img class="card-img img-fluid rounded-pill"
+									src="../img/endJourney.jpeg" th:src="@{img/endJourney.jpeg}"
+									alt="Image of Train Station" />
+							</div>
+							<div class="col-sm-9 p-3">
+								<div class="card-body-right">
+									<h4 class="card-title">End Journey</h4>
+									<p class="card-text">Swipe out at your chosen destination
+										and end your journey with us</p>
+									<a class="btn btn-primary" href="./swipeOutPage">Swipe Out</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="card p-2 my-3" style="width: 100%">
+						<div class="row">
+							<div class="col-sm-3">
+								<img class="card-img img-fluid rounded-pill"
+									src="../img/pastJourney.jpeg" th:src="@{img/pastJourney.jpeg}"
+									alt="Image of Train Station" />
+							</div>
+							<div class="col-sm-9 p-3">
+								<div class="card-body-right">
+									<h4 class="card-title">Past Journey's</h4>
+									<p class="card-text">View history on past journey's</p>
+									<a href="./pastJourneys" class="btn btn-primary">Past
+										Journey</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="card p-2 my-3" style="width: 100%">
+						<div class="row">
+							<div class="col-sm-3">
+								<img class="card-img img-fluid rounded-pill"
+									src="../img/fares.jpeg" th:src="@{img/fares.jpeg}"
+									alt="Image of pound sign" />
+							</div>
+							<div class="col-sm-9 p-3">
+								<div class="card-body-right">
+									<h4 class="card-title">View Fares</h4>
+									<p class="card-text">View fares for journey's across London</p>
+									<a href="./fares" class="btn btn-primary">View Fares</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="card p-2 my-3" style="width: 100%">
+						<div class="row">
+							<div class="col-sm-3">
+								<img class="card-img img-fluid rounded-pill"
+									src="../img/topup.jpeg" th:src="@{img/topup.jpeg}"
+									alt="Image of TopUp" />
+							</div>
+							<div class="col-sm-9 p-3">
+								<div class="card-body-right">
+									<h4 class="card-title">Top Up</h4>
+									<p class="card-text">Credit your account to start your
+										journey with us</p>
+									<a href="./topUpPage" class="btn btn-primary">Top Up</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
 	<!-- FOOTER  -->
+	
 	<footer class="mt-auto">
 		<section class="subscription mt-2">
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-12">
-						<div class="subscription-wrapper shadow-sm">
-							<div
-								class="d-flex subscription-content justify-content-between align-items-center flex-column flex-md-row text-center text-md-left">
-								<h3 th:text="${message}" class="flex-fill"
-									style="color: #000958"></h3>
-
-							</div>
-						</div>
-					</div>
+					<div class="col-lg-12"></div>
 				</div>
 			</div>
 			<div class="container credit text-center mt-3">

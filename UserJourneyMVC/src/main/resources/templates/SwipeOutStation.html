@@ -24,7 +24,7 @@
 </head>
 <body>
 
-<!-- NAVIGATION BAR  -->
+	<!-- NAVIGATION -->
 
 	<nav class="navbar navbar-expand-md navbar-light">
 		<div class="container-md d-flex">
@@ -40,28 +40,66 @@
 					</li>
 					<li class="nav-item"><a class="nav-link" href="./fares">Fares</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="./logOut">LogOut</a>
+					<li class="nav-item"><a class="nav-link" href="./logOut">Logout</a>
 					</li>
 				</ul>
 			</div>
 		</div>
 
 	</nav>
-	
-		<h3 th:text="| Time to swipe out ${session.user.firstName}|"></h3>
-	<h3 th:text="| Your current balance is: ${session.user.balance}|"></h3>
-	<form action="./swipeOut">
-		<label for="stations">End</label> <select name="station" id="station">
-			<option value="kings-cross">Kings-Cross</option>
-			<option value="waterloo">Waterloo</option>
-			<option value="paddington">Paddington</option>
-			<option value="chiswick">Chiswick</option>
-			<option value="london-bridge">London-Bridge</option>
-		</select> <br> <input type="submit" value="Swipe Out">
-	</form>
-	
+
+	<!-- HEADER  -->
+
+	<header>
+		<section>
+			<div class="container hero">
+				<hr class="mt-0">
+				<h1 th:text="| End your journey ${session.user.firstName} !|"
+					class="display-5 fw-bold lh-1 mb-3"></h1>
+				<h3 th:text="| Current balance is: £ ${session.user.balance}|"></h3>
+			</div>
+		</section>
+	</header>
+
+	<!-- MAIN -->
+
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card p-2 my-3" style="width: 100%">
+						<div class="row">
+							<div class="col-sm-3">
+								<img class="card-img img-fluid rounded-pill"
+									src="../img/pastJourney.jpeg" th:src="@{img/pastJourney.jpeg}"
+									alt="Image of Train Station" />
+							</div>
+							<div class="col-sm-9 p-3">
+								<div class="card-body-right">
+									<h4 class="card-title">End Journey</h4>
+									<form action="./swipeOut">
+										<label for="end-stations"></label> <select name="station"
+											id="station">
+											<option value="Kings-Cross">Kings-Cross</option>
+											<option value="Waterloo">Waterloo</option>
+											<option value="Paddington">Paddington</option>
+											<option value="Chiswick">Chiswick</option>
+											<option value="London-Bridge">London-Bridge</option>
+										</select> <br> <br> <input
+											class="btn btn-primary btn-lg px-4 mr-2 shadow-sm"
+											id="button" type="submit" value="Swipe Out">
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
 	<!-- FOOTER -->
-	
+
 	<footer class="mt-auto">
 		<section class="subscription mt-2">
 			<div class="container">

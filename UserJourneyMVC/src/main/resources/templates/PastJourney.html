@@ -38,35 +38,87 @@
 					</li>
 					<li class="nav-item"><a class="nav-link" href="./fares">Fares</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="./logOut">LogOut</a>
+					<li class="nav-item"><a class="nav-link" href="./logOut">Logout</a>
 					</li>
 				</ul>
 			</div>
 		</div>
-
 	</nav>
-	<h2>Past Journey</h2>
-	<table border="1">
-		<tr>
-			<th>SwipeIn Station</th>
-			<th>SwipeOut Station</th>
-			<th>SwipeIn Date And Time</th>
-			<th>SwipeOut Date And Time</th>
-			<th>Journey Fare</th>
-		</tr>
-		<tr th:each="journeyList: ${journeyList}">
-			<td th:text="${journeyList.swipeInStation}"></td>
-			<td th:text="${journeyList.swipeOutStation}"></td>
-			<td
-				th:text="${#temporals.format(journeyList.swipeInDateAndTime, 'dd-MM-yyyy HH:mm')}"></td>
-			<td
-				th:text="${#temporals.format(journeyList.swipeOutDateAndTime,  'dd-MM-yyyy HH:mm')}"></td>
-			<td th:text="${journeyList.journeyFare}"></td>
-		</tr>
-	</table>
-	<br>
-	<br>
-	<a href="./">Go Back to Menu Page</a>
+	
+	<!-- HEADER -->
+
+	<header>
+		<section>
+			<div class="container hero">
+				<hr class="mt-0">
+
+				<div class="col-md-12">
+					<div class="card p-2 my-3" style="width: 100%">
+						<div class="row">
+							<div class="col-sm-3">
+								<img class="card-img img-fluid rounded-pill"
+									src="../img/pastJourney.jpeg" th:src="@{img/pastJourney.jpeg}"
+									alt="Image of Train Station" />
+							</div>
+							<div class="col-sm-9 p-3">
+								<div class="card-body-right">
+									<h1 th:text="| ${session.user.firstName}'s Past Journey|"></h1>
+									<p class="card-text">These are all your past journey's with
+										us!</p>
+									<a class="btn btn-primary btn-lg px-4 mr-2 shadow-sm" href="./swipeInPage">Start New
+										Journey</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</section>
+	</header>
+
+	<!-- MAIN -->
+
+	<section>
+		<div class="container hero">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card p-2 my-3" style="width: 100%">
+						<div class="row">
+							<div class="col-sm-9 p-3">
+								<div class="align-items-center">
+									<h4 class="card-title"></h4>
+									<table class="table table light" border="1">
+										<tr>
+											<th>SwipeIn Station</th>
+											<th>SwipeOut Station</th>
+											<th>SwipeIn Date And Time</th>
+											<th>SwipeOut Date And Time</th>
+											<th>Journey Fare</th>
+										</tr>
+										<tr th:each="journeyList: ${journeyList}">
+											<td th:text="${journeyList.swipeInStation}"></td>
+											<td th:text="${journeyList.swipeOutStation}"></td>
+											<td
+												th:text="${#temporals.format(journeyList.swipeInDateAndTime, 'dd-MM-yyyy HH:mm')}"></td>
+											<td
+												th:text="${#temporals.format(journeyList.swipeOutDateAndTime,  'dd-MM-yyyy HH:mm')}"></td>
+											<td th:text="|£ ${journeyList.journeyFare}|"></td>
+										</tr>
+									</table>
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+	<!-- FOOTER -->
 
 	<footer class="mt-auto">
 		<section class="subscription mt-2">

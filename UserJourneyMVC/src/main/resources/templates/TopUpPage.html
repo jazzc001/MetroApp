@@ -24,7 +24,8 @@
 </head>
 <body>
 
-	<!-- NAVIGATION BAR  -->
+	<!-- NAVIGATION  -->
+	
 	<nav class="navbar navbar-expand-md navbar-light">
 		<div class="container-md d-flex">
 			<a class="navbar-brand" href="./">MetroApp</a>
@@ -39,27 +40,62 @@
 					</li>
 					<li class="nav-item"><a class="nav-link" href="./fares">Fares</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="./logOut">LogOut</a>
+					<li class="nav-item"><a class="nav-link" href="./logOut">Logout</a>
 					</li>
 				</ul>
 			</div>
 		</div>
-
 	</nav>
+	
+	<!--  HEADER -->
 
-	<h3 th:text="| Your current balance is: ${session.user.balance}|"></h3>
-	<span> Minimum Amount Needed for Journey is £20 </span>
-	<h2></h2>
+	<header>
+		<section>
+			<div class="container hero">
+				<hr class="mt-0">
+				<h1 th:text="| You need to topup ${session.user.firstName} !|"
+					class="display-5 fw-bold lh-1 mb-3"></h1>
+				<h3 th:text="| Current balance is: £ ${session.user.balance}|"></h3>
+				<p>Minimum amount needed to start your journey is £20</p>
+			</div>
+		</section>
+	</header>
 
-	<form action="./topUp">
+	<!-- MAIN -->
 
-		Top Up Amount: <input type="number" name="topUpAmount" step="1"
-			min="1" /><br /> <br>
-		<button type="submit">Submit</button>
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card p-2 my-3" style="width: 100%">
+						<div class="row">
+							<div class="col-sm-3">
+								<img class="card-img img-fluid rounded-pill"
+									src="../img/topup.jpeg" th:src="@{img/topup.jpeg}"
+									alt="Image of TopUp" />
+							</div>
+							<div class="col-sm-9 p-3">
+								<div class="card-body-right">
+									<h4 class="card-title">Top Up Account</h4>
+									<form action="./topUp">
 
-	</form>
+										Top Up Amount: <input class="topup" type="number"
+											name="topUpAmount" step="1" min="1" /><br /> <br>
+										<button class="btn btn-primary btn-lg px-4 mr-2 shadow-sm" type="submit">Submit</button>
+
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
 
 	<!-- FOOTER  -->
+	
 	<footer class="mt-auto">
 		<section class="subscription mt-2">
 			<div class="container">
@@ -70,7 +106,6 @@
 								class="d-flex subscription-content justify-content-between align-items-center flex-column flex-md-row text-center text-md-left">
 								<h3 th:text="${message}" class="flex-fill"
 									style="color: #000958"></h3>
-
 							</div>
 						</div>
 					</div>

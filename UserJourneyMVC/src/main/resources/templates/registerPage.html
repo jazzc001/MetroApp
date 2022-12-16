@@ -23,7 +23,7 @@
 <title>MetroApp</title>
 </head>
 <body>
-<!-- NAVIGATION BAR  -->
+	<!-- NAVIGATION BAR  -->
 	<nav class="navbar navbar-expand-md navbar-light">
 		<div class="container-md d-flex">
 			<a class="navbar-brand" href="./">MetroApp</a>
@@ -44,17 +44,84 @@
 			</div>
 		</div>
 	</nav>
-	
-	
-	<h1>Create An Account</h1>
-	<form action="./register" method="post">
-		Enter Email: <input type="email" name="email" required><br> <br>
-		Enter First Name: <input type="text" name="firstName" required><br>
-		<br> Enter Last Name: <input type="text" name="lastName"  required><br>
-		<br> Enter Password: <input type="password" name="password" required><br>
-		<br> <br> <input type="Submit" value="Add New User">
-	</form>
-	
+
+	<!-- MAIN SECTION  -->
+
+	<header>
+		<hr class="mt-0">
+		<section class="login-block">
+			<div class="container" id="login-container">
+				<div class="row">
+					<div class="col-md-4 login-sec">
+						<h2 class="text-center">Sign up</h2>
+						<form class="login-form" action="./register">
+
+							<div class="form-group">
+								<label for="firstName" class="text-uppercase"></label> <input
+									type="text" name="firstName" class="form-control"
+									placeholder="First Name" required>
+							</div>
+
+							<div class="form-group">
+								<label for="lastName" class="text-uppercase"></label> <input
+									type="text" name="lastName" class="form-control"
+									placeholder="Last Name" required>
+							</div>
+
+							<div class="form-group">
+								<label for="email" class="text-uppercase"></label> <input
+									type="email" name="email" class="form-control"
+									placeholder="Email" required>
+							</div>
+
+							<div class="form-group">
+								<label for="password" class="text-uppercase"></label> <input
+									type="password" name="password" class="form-control"
+									placeholder="Password" required>
+							</div>
+
+
+							<div class="form-check">
+								<button type="submit" class="btn btn-primary btn-lg px-4 mr-2 shadow-sm">Submit</button>
+							</div>
+
+						</form>
+					</div>
+					<div class="col-md-8 banner-sec">
+						<div id="carouselExampleIndicators" class="carousel slide"
+							data-ride="carousel">
+							<ol class="carousel-indicators">
+								<li data-target="#carouselExampleIndicators" data-slide-to="0"
+									class="active"></li>
+								<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+								<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+							</ol>
+							<div class="carousel-inner" role="listbox">
+								<div class="carousel-item active">
+									<img class="d-block img-fluid"
+										src="https://static.pexels.com/photos/33972/pexels-photo.jpg"
+										alt="First slide">
+								</div>
+								<div class="carousel-item">
+									<img class="d-block img-fluid"
+										src="https://images.pexels.com/photos/7097/people-coffee-tea-meeting.jpg"
+										alt="First slide">
+								</div>
+								<div class="carousel-item">
+									<img class="d-block img-fluid"
+										src="https://images.pexels.com/photos/872957/pexels-photo-872957.jpeg"
+										alt="First slide">
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</header>
+
+	<!-- FOOTER  -->
 	<footer class="mt-auto">
 		<section class="subscription mt-2">
 			<div class="container">

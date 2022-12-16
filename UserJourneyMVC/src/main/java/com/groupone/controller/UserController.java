@@ -46,7 +46,7 @@ public class UserController {
 			session.setAttribute("user", user);
 			modelAndView.setViewName("Dashboard");
 		} else {
-			modelAndView.addObject("message", "Invalid User Credentials, Please try again");
+			modelAndView.addObject("message", "Invalid user credentials, please try again!");
 			modelAndView.addObject("user", new User());
 			modelAndView.setViewName("loginPage");
 		}
@@ -79,7 +79,7 @@ public class UserController {
 			modelAndView.setViewName("loginPage");
 			modelAndView.addObject("newUser", newUser);
 		} else {
-			message = "FAIL";
+			message = "This account already exists, please try again!";
 			modelAndView.addObject("message", message);
 			modelAndView.setViewName("HomePage");
 		}
@@ -166,9 +166,9 @@ public class UserController {
 
 			System.out.println(user);
 
-			message = "Your account has been increased by " + topUpAmount;
+			message = "Your account has been topped up by: £" + topUpAmount;
 		} else {
-			message = topUpAmount + " could not be added to your account, please try again!";
+			message = "£" + topUpAmount + " could not be added to your account, please try again!";
 		}
 
 		modelAndView.addObject("user", user);
@@ -202,7 +202,7 @@ public class UserController {
 			}
 
 		} else {
-			message = "You need to top up your account";
+			message = "Please top up!";
 		}
 
 		modelAndView.addObject("message", message);
@@ -225,7 +225,7 @@ public class UserController {
 		Journey journey = ((Journey) session.getAttribute("journey"));
 		User user = ((User) session.getAttribute("user"));
 		if (journey == null) {
-			message = "You have not swiped in!";
+			message = "Please swipe in!";
 		} else {
 			journey.setSwipeOutStation(station);
 
@@ -235,8 +235,8 @@ public class UserController {
 				User updateBalance = userJourneyService.updateBalance(journey.getUserId(), fare);
 				user.setBalance(updateBalance.getBalance());
 				session.setAttribute("user", user);
-				message = "You have successfully swiped out at " + station + " and your journey cost is " + fare
-						+ " and your remaining balance is  " + updateBalance.getBalance();
+				message = "You have successfully swiped out at " + station + " your journey cost: £" + fare
+						+ " and your remaining balance:  £" + updateBalance.getBalance();
 			} else {
 				message = "You have not swiped out, please try again!";
 			}
